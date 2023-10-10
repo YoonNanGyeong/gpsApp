@@ -23,7 +23,7 @@
                 android:background="@color/primary"
                 android:textColor="@color/white"
                 android:minHeight="?attr/actionBarSize"
-                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+                android:theme="@style/Theme.AppCompat.NoActionBar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         <!-- app bar -->
