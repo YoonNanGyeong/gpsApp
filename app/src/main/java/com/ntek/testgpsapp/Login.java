@@ -11,7 +11,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_login);
 
 
     }

@@ -1,4 +1,5 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,33 +14,48 @@
             android:orientation="vertical"
         >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal"
-            android:background="@color/primary_container">
-
-            <TextView
-                android:id="@+id/back"
-                android:layout_width="wrap_content"
+        <!-- app bar -->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/next_toolbar"
+                android:layout_width="409dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.7"
-                android:text="back"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                />
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:background="@color/primary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/signup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_weight="2"
-                android:text="회원 가입"
-                android:textColor="@color/white"
-                android:textSize="25dp" />
-        </LinearLayout>
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingTop="24dp"-->
+<!--                android:paddingBottom="24dp"-->
+<!--                android:background="@color/primary"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/back"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="20dp"-->
+<!--                    android:layout_weight="1.7"-->
+<!--                    android:text="back"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="20dp" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/signup"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="2"-->
+<!--                    android:text="회원 가입"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="25dp" />-->
+<!--            </LinearLayout>-->
+        <!-- app bar -->
 
         <ScrollView
             android:layout_width="match_parent"
@@ -48,32 +64,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/signNametext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="이름"
-                    android:textColor="@color/primary"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
-                    />
-
-                <EditText
-                    android:id="@+id/signName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/input_text"
-                    android:ems="10"
-                    android:hint=" 이름"
-                    android:inputType="textPersonName"
-                    android:text="" />
 
                 <TextView
                     android:id="@+id/signIDtext"
@@ -81,69 +76,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="아이디"
-                    android:textColor="@color/primary"
-                    android:textSize="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/signID"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_width="245dp"
+                    android:layout_height="48dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/input_text"
                     android:ems="10"
+                    android:textSize="16dp"
                     android:hint=" 아이디"
                     android:inputType="textPersonName"
                     android:text="" />
-
-                <TextView
-                    android:id="@+id/signBirthtext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="생년월일"
-                    android:textColor="@color/primary"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/signBirth"
-                        android:layout_width="100dp"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/input_text"
-                        android:ems="10"
-                        android:hint=" 년(4자)"
-                        android:inputType="textPersonName"
-                        android:text="" />
-                    <EditText
-                        android:id="@+id/signBirth2"
-                        android:layout_width="100dp"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/input_text"
-                        android:ems="10"
-                        android:hint=" 월"
-                        android:inputType="textPersonName"
-                        android:text="" />
-                    <EditText
-                        android:id="@+id/signBirth3"
-                        android:layout_width="100dp"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="20dp"
-                        android:background="@drawable/input_text"
-                        android:ems="10"
-                        android:hint=" 일"
-                        android:inputType="textPersonName"
-                        android:text="" />
-                </LinearLayout>
 
                 <TextView
                     android:id="@+id/signPWtext"
@@ -151,21 +98,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="비밀번호"
-                    android:textColor="@color/primary"
-                    android:textSize="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
                     android:textStyle="bold" />
-
 
                 <EditText
                     android:id="@+id/signPW"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_width="245dp"
+                    android:layout_height="48dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/input_text"
                     android:ems="10"
-                    android:hint=" 비밀번호"
+                    android:textSize="16dp"
+                    android:hint="비밀번호"
                     android:inputType="textPassword"
                     android:text="" />
+
 
                 <TextView
                     android:id="@+id/signPW2text"
@@ -173,22 +121,24 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="비밀번호 확인"
-                    android:textColor="@color/primary"
-                    android:textSize="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="30dp">
 
                     <EditText
                         android:id="@+id/signPW2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_width="245dp"
+                        android:layout_height="48dp"
                         android:layout_marginBottom="20dp"
                         android:background="@drawable/input_text"
                         android:ems="10"
+                        android:textSize="16dp"
                         android:hint=" 비밀번호 다시 입력"
                         android:inputType="textPassword"
                         android:text="" />
@@ -198,7 +148,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
-                        android:background="@drawable/input_text"
+                        android:background="@drawable/button_login"
                         android:text="확인"
                         android:textColor="@color/white"
                         android:textSize="16sp"
@@ -211,35 +161,36 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="이메일"
-                    android:textColor="@color/primary"
-                    android:textSize="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/signmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_width="245dp"
+                    android:layout_height="48dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/input_text"
                     android:ems="10"
                     android:hint=" 이메일"
+                    android:textSize="16dp"
                     android:inputType="textPersonName"
                     android:text="" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/signupbutton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="20dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/input_text"
+                    android:background="@drawable/button_login"
                     android:text="회원가입"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="14dp"
                     android:textStyle="bold" />
 
             </LinearLayout>
         </ScrollView>
 
     </LinearLayout>
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
