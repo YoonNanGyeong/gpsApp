@@ -13,27 +13,27 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".Signup"
+            android:name=".SignupActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="false"
             android:label="@string/title_activity_signup"
             android:theme="@style/Theme.TestGPSApp.Fullscreen" >
-
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_login"
-            android:theme="@style/Theme.TestGPSApp.Fullscreen" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:theme="@style/Theme.TestGPSApp.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+        >
+
         </activity>
     </application>
 
