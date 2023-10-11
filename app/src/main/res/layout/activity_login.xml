@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
@@ -26,32 +28,42 @@
             android:textSize="25dp"
             android:textAlignment="center"
             android:gravity="center_horizontal" />
-
-        <EditText
-            android:id="@+id/editID"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/loginID"
             android:layout_width="245dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_marginBottom="30dp"
-            android:background="@drawable/input_text"
             android:ems="10"
+            android:textSize="13dp"
             android:hint="아이디"
-            android:inputType="textPersonName"
-            android:text=""
-            android:textSize="13dp" />
+            app:endIconMode="clear_text"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-        <EditText
-            android:id="@+id/ediPassword"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/loginPW"
             android:layout_width="245dp"
             android:layout_height="60dp"
             android:layout_marginBottom="30dp"
             android:layout_gravity="center"
-            android:background="@drawable/input_text"
             android:ems="10"
             android:textSize="13dp"
             android:hint="비밀번호"
-            android:inputType="textPassword" />
+            app:endIconMode="clear_text"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+            />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/loginbutton"
