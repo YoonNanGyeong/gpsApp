@@ -4,36 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    tools:context=".SignupActivity">
+    tools:context=".SignupActivity"
+    tools:ignore="SpeakableTextPresentCheck"
+    >
 
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="vertical"-->
-<!--        >-->
-
-        <!-- app bar -->
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/signup_toolbar"
-                android:layout_width="409dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="1dp"
-                android:layout_marginLeft="1dp"
-                android:background="@color/primary"
-                android:textColor="@color/white"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="@style/Base.Theme.TestGPSApp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        <!-- app bar -->
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="60dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/layout_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -164,5 +145,4 @@
             </LinearLayout>
         </ScrollView>
 
-<!--    </LinearLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

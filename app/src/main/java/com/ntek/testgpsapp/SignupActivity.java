@@ -15,11 +15,8 @@ public class SignupActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        //툴바 생성
-        Toolbar toolbar = findViewById(R.id.signup_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("회원가입");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 

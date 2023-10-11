@@ -14,6 +14,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().hide();
 
         //회원가입 버튼
         sign = findViewById(R.id.signin);
