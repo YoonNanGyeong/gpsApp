@@ -33,21 +33,18 @@
                     android:textSize="16dp"
                     android:textStyle="bold" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+                <EditText
                     android:id="@+id/signID"
                     android:layout_width="245dp"
                     android:layout_height="48dp"
                     android:layout_marginBottom="20dp"
+                    android:background="@drawable/selector_input"
                     android:ems="10"
                     android:textSize="16dp"
                     android:hint="아이디"
-                    app:endIconMode="clear_text"
-                >
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:inputType="text"
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/signPWtext"
@@ -65,7 +62,7 @@
                     android:layout_width="245dp"
                     android:layout_height="48dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@drawable/input_text"
+                    android:background="@drawable/selector_input"
                     android:ems="10"
                     android:textSize="16dp"
                     android:hint="비밀번호"
@@ -95,7 +92,7 @@
                         android:layout_width="245dp"
                         android:layout_height="48dp"
                         android:layout_marginBottom="20dp"
-                        android:background="@drawable/input_text"
+                        android:background="@drawable/selector_input"
                         android:ems="10"
                         android:textSize="16dp"
                         android:hint=" 비밀번호 다시 입력"
@@ -130,7 +127,7 @@
                     android:layout_width="245dp"
                     android:layout_height="48dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@drawable/input_text"
+                    android:background="@drawable/unfocus_input_text"
                     android:ems="10"
                     android:hint=" 이메일"
                     android:textSize="16dp"
