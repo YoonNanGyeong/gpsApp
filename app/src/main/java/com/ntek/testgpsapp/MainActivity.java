@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,8 +25,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // appbar 타이틀 및 배경색 변경
         getSupportActionBar().setTitle("위치정보 목록");
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xF7F2FA));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F7F2FA")));
 
         // xml 연결
         tabLayout = findViewById(R.id.tab_layout);

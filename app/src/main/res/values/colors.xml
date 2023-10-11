@@ -9,4 +9,5 @@
     <color name="black_overlay">#66000000</color>
     <color name="primary">#6750A4</color>
     <color name="surface_container">#F7F2FA</color>
+    <color name="error">#B3261E</color>
 </resources>
