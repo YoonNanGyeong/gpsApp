@@ -44,7 +44,8 @@
                     android:textSize="16dp"
                     android:hint="아이디"
                     android:inputType="text"
-                    android:text="" />
+                    android:text=""
+                    />
 
                 <TextView
                     android:id="@+id/signPWtext"
