@@ -12,11 +12,13 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.ntek.testgpsapp.DAO.UserDAO;
+import com.ntek.testgpsapp.Entity.User;
 
 public class SignupActivity extends AppCompatActivity {
 
     EditText id, pw, email;
     String uId, uPw, uEmail;
+    User user;
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -44,7 +46,11 @@ public class SignupActivity extends AppCompatActivity {
                 uPw = pw.getText().toString();
                 uEmail = email.getText().toString();
 
-                userDAO.insertAll();    //회원정보 저장
+                user.uid = uId;
+                user.pw = uPw;
+                user.email = uEmail;
+
+                userDAO.insertAll(user);    //회원정보 저장
 
             }
         });
