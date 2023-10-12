@@ -5,11 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.room.Room;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.ntek.testgpsapp.DAO.UserDAO;
@@ -22,10 +28,12 @@ public class SignupActivity extends AppCompatActivity {
     EditText id, pw, email;
     AppCompatButton joinBtn;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
 
         // appbar 설정
         getSupportActionBar().setTitle("회원가입");
@@ -39,6 +47,27 @@ public class SignupActivity extends AppCompatActivity {
         pw = findViewById(R.id.signPW);
         email = findViewById(R.id.signEmail);
         joinBtn = findViewById(R.id.signUpButton);
+
+        ScrollView outSide = findViewById(R.id.layout_signUp_outSide);
+        final InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+
+        // 필드 영역 외 터치
+        outSide.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                // 포커스 해제
+                id.clearFocus();
+                pw.clearFocus();
+                email.clearFocus();
+
+                // 키보드 내리기
+                manager.hideSoftInputFromWindow(view.getWindowToken(),0);
+
+                return false;
+            }
+        });
+
+
 
         joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +92,7 @@ public class SignupActivity extends AppCompatActivity {
 
 
     }
+
 
     /*
     * NOT NULL 확인 메소드
