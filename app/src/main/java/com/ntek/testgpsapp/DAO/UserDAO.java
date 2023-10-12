@@ -15,16 +15,12 @@ public interface UserDAO {
     List<User> getUserList();
 
     // 동일 아이디 조회
-    @Query("SELECT * FROM user WHERE uid = :userId")
+    @Query("SELECT * FROM user WHERE userId = :userId")
     List<User> findByUserId(String userId);
 
-    // 동일 비밀번호 조회
-    @Query("SELECT * FROM user WHERE pw = :userPw")
-    List<User> findByPw(String pw);
-
     // 동일 이메일 조회
-    @Query("SELECT * FROM user WHERE pw = :userEmail")
-    List<User> findByEmail(String email);
+    @Query("SELECT * FROM user WHERE userEmail = :userEmail")
+    List<User> findByEmail(String userEmail);
 
     // 회원정보 저장
     @Insert

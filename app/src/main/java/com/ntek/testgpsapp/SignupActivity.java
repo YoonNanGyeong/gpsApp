@@ -46,9 +46,6 @@ public class SignupActivity extends AppCompatActivity {
                 uPw = pw.getText().toString();
                 uEmail = email.getText().toString();
 
-                user.uid = uId;
-                user.pw = uPw;
-                user.email = uEmail;
 
                 userDAO.insertAll(user);    //회원정보 저장
 

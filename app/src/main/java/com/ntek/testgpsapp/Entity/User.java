@@ -21,6 +21,12 @@ public class User {
     @ColumnInfo(name = "userEmail")
     public String email;
 
+    public User(@NonNull String uid, String pw, String email) {
+        this.uid = uid;
+        this.pw = pw;
+        this.email = email;
+    }
+
     @NonNull
     public String getUid() {
         return uid;

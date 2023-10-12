@@ -21,6 +21,13 @@ public class Gps {
     //고도
     public int alt;
 
+    public Gps(@NonNull String GPS_uid, int lat, int lon, int alt) {
+        this.GPS_uid = GPS_uid;
+        this.lat = lat;
+        this.lon = lon;
+        this.alt = alt;
+    }
+
     @NonNull
     public String getGPS_uid() {
         return GPS_uid;
