@@ -50,7 +50,7 @@ public class SignupActivity extends AppCompatActivity {
                 // data 객체
                 User user = new User(uId,uPw,uEmail);
 
-                if(uId.length() == 0 || uPw.length() == 0 || uEmail.length() == 0){
+                if(nullVerify(uId,uPw,uEmail)==false){  //입력 값이 없으면
                     Toast.makeText(SignupActivity.this, "입력 값이 없습니다.", Toast.LENGTH_SHORT).show();
                     id.requestFocus();
                 }else{
@@ -62,6 +62,18 @@ public class SignupActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    /*
+    * NOT NULL 확인 메소드
+    * */
+    private boolean nullVerify(String... params){
+        for(String param : params){
+            if(param == null || param.isEmpty()){
+                return false;
+            }
+        }
+        return true;
     }
 
     /*
