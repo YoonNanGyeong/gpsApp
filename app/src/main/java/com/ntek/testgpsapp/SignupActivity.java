@@ -10,47 +10,66 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ntek.testgpsapp.DAO.UserDAO;
 import com.ntek.testgpsapp.Entity.User;
 
-public class SignupActivity extends AppCompatActivity {
+import java.util.List;
 
+public class SignupActivity extends AppCompatActivity {
+    private AppDatabase db;
     EditText id, pw, email;
-    String uId, uPw, uEmail;
-    User user;
+    AppCompatButton joinBtn;
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        id = (EditText)findViewById(R.id.signID);
-        pw = (EditText)findViewById(R.id.signPW);
-        email = (EditText)findViewById(R.id.signEmail);
-
         // appbar 설정
         getSupportActionBar().setTitle("회원가입");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // 데이터베이스 인스턴스 생성
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "AppDatabase").build();
-        UserDAO userDAO = db.userDao(); //DAO 인스턴스
+        db = AppDatabase.getInstance(this);
 
-        AppCompatButton joinBtn = findViewById(R.id.signUpButton);
+        // xml객체 뷰 바인딩
+        id = findViewById(R.id.signID);
+        pw = findViewById(R.id.signPW);
+        email = findViewById(R.id.signEmail);
+        joinBtn = findViewById(R.id.signUpButton);
+
         joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                uId = id.getText().toString();
-                uPw = pw.getText().toString();
-                uEmail = email.getText().toString();
+            public void onClick(View v) {
+                String uId = id.getText().toString();
+                String uPw = pw.getText().toString();
+                String uEmail = email.getText().toString();
 
+                // data 객체
+                User user = new User(uId,uPw,uEmail);
 
-                userDAO.insertAll(user);    //회원정보 저장
+                if(uId.length() == 0 || uPw.length() == 0 || uEmail.length() == 0){
+                    Toast.makeText(SignupActivity.this, "입력 값이 없습니다.", Toast.LENGTH_SHORT).show();
+                    id.requestFocus();
+                }else{
+                    //abstract interface 구현 -> UserDAO를 사용하여 db 저장
+                    db.userDao().insertAll(user);
+                }
 
             }
         });
+
+
+    }
+
+    /*
+    * 입력 값 검증 메소드
+    * */
+    private void inputVerify(String userId,String userEmail){
+        List<User> findByIdList = db.userDao().findByUserId(userId);
+        List<User> findByEmailList = db.userDao().findByEmail(userEmail);
 
 
     }

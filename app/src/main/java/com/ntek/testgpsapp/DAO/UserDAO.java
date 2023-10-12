@@ -18,6 +18,7 @@ public interface UserDAO {
     @Query("SELECT * FROM user WHERE userId = :userId")
     List<User> findByUserId(String userId);
 
+
     // 동일 이메일 조회
     @Query("SELECT * FROM user WHERE userEmail = :userEmail")
     List<User> findByEmail(String userEmail);
