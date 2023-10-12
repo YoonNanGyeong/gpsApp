@@ -2,6 +2,7 @@ package com.ntek.testgpsapp;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
 
 import com.ntek.testgpsapp.DAO.GpsDAO;
 import com.ntek.testgpsapp.DAO.UserDAO;
@@ -12,4 +13,6 @@ import com.ntek.testgpsapp.Entity.User;
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDAO userDao();
     public abstract GpsDAO gpsDao();
+
+
 }

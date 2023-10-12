@@ -19,11 +19,11 @@ public interface UserDAO {
     List<User> findByUserId(String userId);
 
     // 동일 비밀번호 조회
-    @Query("SELECT * FROM user WHERE pw = :pw")
+    @Query("SELECT * FROM user WHERE pw = :userPw")
     List<User> findByPw(String pw);
 
     // 동일 이메일 조회
-    @Query("SELECT * FROM user WHERE pw = :email")
+    @Query("SELECT * FROM user WHERE pw = :userEmail")
     List<User> findByEmail(String email);
 
     // 회원정보 저장

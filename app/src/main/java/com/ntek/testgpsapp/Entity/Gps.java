@@ -13,16 +13,44 @@ public class Gps {
     public String GPS_uid;
 
     //경도
-    @ColumnInfo(name = "lat")
     public int lat;
 
     //위도
-    @ColumnInfo(name = "lon")
     public int lon;
 
     //고도
-    @ColumnInfo(name = "alt")
     public int alt;
 
+    @NonNull
+    public String getGPS_uid() {
+        return GPS_uid;
+    }
 
+    public void setGPS_uid(@NonNull String GPS_uid) {
+        this.GPS_uid = GPS_uid;
+    }
+
+    public int getLat() {
+        return lat;
+    }
+
+    public void setLat(int lat) {
+        this.lat = lat;
+    }
+
+    public int getLon() {
+        return lon;
+    }
+
+    public void setLon(int lon) {
+        this.lon = lon;
+    }
+
+    public int getAlt() {
+        return alt;
+    }
+
+    public void setAlt(int alt) {
+        this.alt = alt;
+    }
 }
