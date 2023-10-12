@@ -30,9 +30,9 @@ import java.util.List;
 
 public class SignupActivity extends AppCompatActivity {
     private AppDatabase db;
-    EditText id, pw, email;
+    EditText id, pw, pwChk, email;
     AppCompatButton joinBtn;
-    String uId, uPw, uEmail;
+    String uId, uPw, uEmail, uPwChk;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
