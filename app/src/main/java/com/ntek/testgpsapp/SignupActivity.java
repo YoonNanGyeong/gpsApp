@@ -59,6 +59,7 @@ public class SignupActivity extends AppCompatActivity {
         // 에러메세지
         TextView tv_errorMsg_id = findViewById(R.id.errorMsg_signId);
         TextView tv_errorMsg_pw = findViewById(R.id.errorMsg_signPW);
+        TextView tv_errorMsg_pw2 = findViewById(R.id.errorMsg_signPW2); //비밀번호 확인
         TextView tv_errorMsg_email = findViewById(R.id.errorMsg_signEmail);
 
         ScrollView outSide = findViewById(R.id.layout_signUp_outSide);
@@ -90,14 +91,12 @@ public class SignupActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
 
-            @SuppressLint("ResourceAsColor")
             @Override
             public void afterTextChanged(Editable editable) {
                 uId = id.getText().toString();
 
                 if(nullVerify(uId)==false){ // 입력값 없을 경우
                     tv_errorMsg_id.setText("아이디는 필수입력입니다.");    //경고메세지
-                    tv_errorMsg_id.setTextColor(R.color.error);
                     id.setBackgroundResource(R.drawable.error_input);   //테두리 변경
                 }else{
                     tv_errorMsg_id.setText("");    //경고메세지 제거
@@ -115,14 +114,12 @@ public class SignupActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
 
-            @SuppressLint("ResourceAsColor")
             @Override
             public void afterTextChanged(Editable editable) {
                 uPw = pw.getText().toString();
 
                 if(nullVerify(uPw)==false){ // 입력값 없을 경우
                     tv_errorMsg_pw.setText("비밀번호는 필수입력입니다.");    //경고메세지
-                    tv_errorMsg_pw.setTextColor(R.color.error);
                     pw.setBackgroundResource(R.drawable.error_input);   //테두리 변경
                 }else{
                     tv_errorMsg_pw.setText("");    //경고메세지 제거
@@ -142,12 +139,10 @@ public class SignupActivity extends AppCompatActivity {
 
             }
 
-            @SuppressLint("ResourceAsColor")
             @Override
             public void afterTextChanged(Editable s) {
                 if(!Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()){
                     tv_errorMsg_email.setText("이메일 형식으로 입력해주세요");
-                    tv_errorMsg_email.setTextColor(R.color.error);
                     email.setBackgroundResource(R.drawable.error_input);
                 }else{
                     tv_errorMsg_email.setText("");
