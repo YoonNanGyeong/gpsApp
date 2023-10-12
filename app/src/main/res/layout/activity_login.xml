@@ -39,6 +39,7 @@
             android:textSize="13dp"
             android:hint="아이디"
             app:endIconMode="clear_text"
+            android:maxLength="12"
             >
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -57,6 +58,7 @@
             android:textSize="13dp"
             android:hint="비밀번호"
             app:endIconMode="clear_text"
+            android:maxLength="16"
             >
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
