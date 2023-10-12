@@ -7,6 +7,7 @@ import androidx.room.Room;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -57,6 +58,7 @@ public class SignupActivity extends AppCompatActivity {
 
         // 에러메세지
         TextView tv_errorMsg_id = findViewById(R.id.errorMsg_signId);
+        TextView tv_errorMsg_pw = findViewById(R.id.errorMsg_signPW);
         TextView tv_errorMsg_email = findViewById(R.id.errorMsg_signEmail);
 
         ScrollView outSide = findViewById(R.id.layout_signUp_outSide);
@@ -88,16 +90,43 @@ public class SignupActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
 
+            @SuppressLint("ResourceAsColor")
             @Override
             public void afterTextChanged(Editable editable) {
                 uId = id.getText().toString();
 
                 if(nullVerify(uId)==false){ // 입력값 없을 경우
                     tv_errorMsg_id.setText("아이디는 필수입력입니다.");    //경고메세지
+                    tv_errorMsg_id.setTextColor(R.color.error);
                     id.setBackgroundResource(R.drawable.error_input);   //테두리 변경
                 }else{
                     tv_errorMsg_id.setText("");    //경고메세지 제거
                     id.setBackgroundResource(R.drawable.unfocus_input_text);   //테두리 변경
+                }
+            }
+        });
+
+        pw.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void afterTextChanged(Editable editable) {
+                uPw = pw.getText().toString();
+
+                if(nullVerify(uPw)==false){ // 입력값 없을 경우
+                    tv_errorMsg_pw.setText("비밀번호는 필수입력입니다.");    //경고메세지
+                    tv_errorMsg_pw.setTextColor(R.color.error);
+                    pw.setBackgroundResource(R.drawable.error_input);   //테두리 변경
+                }else{
+                    tv_errorMsg_pw.setText("");    //경고메세지 제거
+                    pw.setBackgroundResource(R.drawable.unfocus_input_text);   //테두리 변경
                 }
             }
         });
@@ -113,10 +142,12 @@ public class SignupActivity extends AppCompatActivity {
 
             }
 
+            @SuppressLint("ResourceAsColor")
             @Override
             public void afterTextChanged(Editable s) {
                 if(!Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()){
                     tv_errorMsg_email.setText("이메일 형식으로 입력해주세요");
+                    tv_errorMsg_email.setTextColor(R.color.error);
                     email.setBackgroundResource(R.drawable.error_input);
                 }else{
                     tv_errorMsg_email.setText("");
@@ -124,22 +155,6 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        /*
-        * 입력 필드 포커스 여부
-        * */
-//        id.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-//
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if(!hasFocus) {   // 포커스 비활성화
-//
-//                }else{  //포커스 활성화
-//
-//                }
-//            }
-//        });
 
 
         /*
@@ -163,6 +178,8 @@ public class SignupActivity extends AppCompatActivity {
                     //abstract interface 구현 -> UserDAO를 사용하여 db 저장
                     db.userDao().insertAll(user);
                     Toast.makeText(SignupActivity.this, "회원가입 완료!", Toast.LENGTH_SHORT).show();
+
+                    //로그인 화면으로 전환
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                 }
