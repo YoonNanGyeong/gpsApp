@@ -163,6 +163,8 @@ public class SignupActivity extends AppCompatActivity {
                     //abstract interface 구현 -> UserDAO를 사용하여 db 저장
                     db.userDao().insertAll(user);
                     Toast.makeText(SignupActivity.this, "회원가입 완료!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
                 }
 
             }
