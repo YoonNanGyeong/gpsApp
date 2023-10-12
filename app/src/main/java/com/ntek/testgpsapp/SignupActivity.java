@@ -8,6 +8,10 @@ import androidx.room.Room;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ntek.testgpsapp.DAO.UserDAO;
@@ -27,6 +32,7 @@ public class SignupActivity extends AppCompatActivity {
     private AppDatabase db;
     EditText id, pw, email;
     AppCompatButton joinBtn;
+    String uId, uPw, uEmail;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -48,6 +54,11 @@ public class SignupActivity extends AppCompatActivity {
         email = findViewById(R.id.signEmail);
         joinBtn = findViewById(R.id.signUpButton);
 
+
+        // 에러메세지
+        TextView tv_errorMsg_id = findViewById(R.id.errorMsg_signId);
+        TextView tv_errorMsg_email = findViewById(R.id.errorMsg_signEmail);
+
         ScrollView outSide = findViewById(R.id.layout_signUp_outSide);
         final InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
@@ -67,24 +78,91 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
+        // 입력필드 값 변경 이벤트
+        id.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                uId = id.getText().toString();
+
+                if(nullVerify(uId)==false){ // 입력값 없을 경우
+                    tv_errorMsg_id.setText("아이디는 필수입력입니다.");    //경고메세지
+                    id.setBackgroundResource(R.drawable.error_input);   //테두리 변경
+                }else{
+                    tv_errorMsg_id.setText("");    //경고메세지 제거
+                    id.setBackgroundResource(R.drawable.unfocus_input_text);   //테두리 변경
+                }
+            }
+        });
+
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()){
+                    tv_errorMsg_email.setText("이메일 형식으로 입력해주세요");
+                    email.setBackgroundResource(R.drawable.error_input);
+                }else{
+                    tv_errorMsg_email.setText("");
+                    email.setBackgroundResource(R.drawable.unfocus_input_text);
+                }
+            }
+        });
 
 
+        /*
+        * 입력 필드 포커스 여부
+        * */
+//        id.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+//
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if(!hasFocus) {   // 포커스 비활성화
+//
+//                }else{  //포커스 활성화
+//
+//                }
+//            }
+//        });
+
+
+        /*
+        * 회원가입 버튼 클릭
+        * */
         joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uId = id.getText().toString();
-                String uPw = pw.getText().toString();
-                String uEmail = email.getText().toString();
+                uId = id.getText().toString();
+                uPw = pw.getText().toString();
+                uEmail = email.getText().toString();
 
                 // data 객체
                 User user = new User(uId,uPw,uEmail);
-
-                if(nullVerify(uId,uPw,uEmail)==false){  //입력 값이 없으면
+                
+                // 필수값을 입력 안했을 경우
+                if(uId.length() == 0 ||uPw.length() == 0 ||uEmail.length() == 0){
                     Toast.makeText(SignupActivity.this, "입력 값이 없습니다.", Toast.LENGTH_SHORT).show();
                     id.requestFocus();
                 }else{
                     //abstract interface 구현 -> UserDAO를 사용하여 db 저장
                     db.userDao().insertAll(user);
+                    Toast.makeText(SignupActivity.this, "회원가입 완료!", Toast.LENGTH_SHORT).show();
                 }
 
             }

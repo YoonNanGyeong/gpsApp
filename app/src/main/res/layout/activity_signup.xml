@@ -39,7 +39,6 @@
                     android:id="@+id/signID"
                     android:layout_width="245dp"
                     android:layout_height="48dp"
-                    android:layout_marginBottom="20dp"
                     android:background="@drawable/selector_input"
                     android:ems="10"
                     android:textSize="16dp"
@@ -47,6 +46,15 @@
                     android:inputType="text"
                     android:text=""
                     />
+
+                <TextView
+                    android:id="@+id/errorMsg_signId"
+                    android:layout_width="245dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="13dp"
+                    android:text=""
+                />
 
                 <TextView
                     android:id="@+id/signPWtext"
@@ -57,20 +65,28 @@
                     android:textColor="@color/black"
                     android:textSize="16dp"
                     android:textStyle="bold"
-                    />
+                />
 
                 <EditText
                     android:id="@+id/signPW"
                     android:layout_width="245dp"
                     android:layout_height="48dp"
-                    android:layout_marginBottom="20dp"
                     android:background="@drawable/selector_input"
                     android:ems="10"
                     android:textSize="16dp"
                     android:hint="비밀번호"
                     android:inputType="textPassword"
                     app:endIconMode="clear_text"
-                    android:text="" />
+                    android:text=""
+                />
+                <TextView
+                    android:id="@+id/errorMsg_signPW"
+                    android:layout_width="245dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="13dp"
+                    android:text=""
+                />
 
 
                 <TextView
@@ -87,13 +103,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="30dp">
+                >
 
                     <EditText
                         android:id="@+id/signPW2"
                         android:layout_width="245dp"
                         android:layout_height="48dp"
-                        android:layout_marginBottom="20dp"
                         android:background="@drawable/selector_input"
                         android:ems="10"
                         android:textSize="16dp"
@@ -113,6 +128,15 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>
+                <TextView
+                    android:id="@+id/errorMsg_signPW2"
+                    android:layout_width="245dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="13dp"
+                    android:text=""
+                />
+
 
                 <TextView
                     android:id="@+id/signEmailtext"
@@ -128,7 +152,6 @@
                     android:id="@+id/signEmail"
                     android:layout_width="245dp"
                     android:layout_height="48dp"
-                    android:layout_marginBottom="20dp"
                     android:background="@drawable/unfocus_input_text"
                     android:ems="10"
                     android:hint=" 이메일"
@@ -138,6 +161,14 @@
                     android:text=""
                     android:imeOptions="actionDone"
                     />
+                <TextView
+                    android:id="@+id/errorMsg_signEmail"
+                    android:layout_width="245dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="13dp"
+                    android:text=""
+                />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/signUpButton"
