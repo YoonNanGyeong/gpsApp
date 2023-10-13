@@ -21,7 +21,6 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class MainActivity extends AppCompatActivity {
     private AppDatabase db;
-    private Menu logOutBtn;
     TabLayout tabLayout;
     ViewPager2 viewPager;
 
@@ -55,15 +54,20 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    //appbar 메뉴 클릭 이벤트 처리
+    //appbar 로그아웃 메뉴 클릭 이벤트 처리
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
+        Log.i("MainActivity","onOptionsItemSelected called");
+
         if(item.getItemId() == R.id.logOut_action){
             logOutAction();
             return true;
+        }else{
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
+
+    // 로그아웃 확인 다이얼로그
     private void logOutAction(){
         //alert dialog 생성
         new AlertDialog.Builder(this)
@@ -77,12 +81,12 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);  //로그인 화면으로 전환
                     }
                 })
-                .setPositiveButton("아니오", new DialogInterface.OnClickListener() {
+                .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Toast.makeText(MainActivity.this, "로그아웃 취소", Toast.LENGTH_SHORT).show();
                     }
-                });
+                }).show();
 
         }
 

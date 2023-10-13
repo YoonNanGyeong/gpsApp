@@ -1,9 +1,13 @@
 package com.ntek.testgpsapp;
 
+import static android.content.Context.LOCALE_SERVICE;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -27,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     LinearLayout outSide;
 
     String uId, uPw;
+
+    LocationManager locationMng;
 
 
     @Override
@@ -55,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
         pw = findViewById(R.id.user_loginPw);
         loginBtn = findViewById(R.id.loginButton);
         outSide = findViewById(R.id.layout_login_outside);
+
+        locationMng = (LocationManager) getSystemService(LOCALE_SERVICE);
     }
 
     @Override
@@ -67,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i("LoginActivity","onResume Called");
+
 
         final InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
@@ -101,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra("id",uId);
                     intent.putExtra("pw",uPw);
 
-                    startActivity(intent);
+                    startActivity(intent);  //메인화면으로 이동
                 }else{
                     Toast.makeText(LoginActivity.this, "로그인 실패..", Toast.LENGTH_SHORT).show();
                     return;
