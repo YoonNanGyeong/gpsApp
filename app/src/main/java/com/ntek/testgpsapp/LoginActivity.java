@@ -4,9 +4,13 @@ import static android.content.Context.LOCALE_SERVICE;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.ntek.testgpsapp.Entity.Gps;
 import com.ntek.testgpsapp.Entity.User;
 
 import java.util.List;
@@ -33,12 +38,15 @@ public class LoginActivity extends AppCompatActivity {
     String uId, uPw;
 
     LocationManager locationMng;
+    Location loc_current;
+    double lon, lat, alt; //위도, 경도, 고도
 
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        Log.i("LoginActivity","onPostCreate Called");
+        Log.i("LoginActivity", "onPostCreate Called");
 
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
@@ -62,7 +70,8 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.loginButton);
         outSide = findViewById(R.id.layout_login_outside);
 
-        locationMng = (LocationManager) getSystemService(LOCALE_SERVICE);
+        locationMng = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        loc_current = locationMng.getLastKnownLocation(LocationManager.GPS_PROVIDER);   //현재위치정보
     }
 
     @Override
@@ -101,10 +110,19 @@ public class LoginActivity extends AppCompatActivity {
                 uId = id.getText().toString();
                 uPw = pw.getText().toString();
 
+                // 위도, 경도, 고도
+                lon = loc_current.getLongitude();
+                lat = loc_current.getLatitude();
+                alt = loc_current.getAltitude();
+
+                // 데이터 객체
+                Gps gps = new Gps(uId,lat,lon,alt);
+
                 List<User> findByUserAssign = db.userDao().findByUserAssign(uId, uPw);  // db에서 해당 계정 찾기
 
                 if(findByUserAssign.size() > 0){ //계정이 있으면 로그인 성공
-                    Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
+                    db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
+                    Toast.makeText(LoginActivity.this, "로그인 성공!(위치정보 저장)", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     intent.putExtra("id",uId);

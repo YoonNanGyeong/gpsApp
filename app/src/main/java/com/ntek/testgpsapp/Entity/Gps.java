@@ -13,15 +13,15 @@ public class Gps {
     public String GPS_uid;
 
     //경도
-    public int lat;
+    public double lat;
 
     //위도
-    public int lon;
+    public double lon;
 
     //고도
-    public int alt;
+    public double alt;
 
-    public Gps(@NonNull String GPS_uid, int lat, int lon, int alt) {
+    public Gps(@NonNull String GPS_uid, double lat, double lon, double alt) {
         this.GPS_uid = GPS_uid;
         this.lat = lat;
         this.lon = lon;
@@ -37,27 +37,27 @@ public class Gps {
         this.GPS_uid = GPS_uid;
     }
 
-    public int getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public void setLat(int lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
-    public int getLon() {
+    public double getLon() {
         return lon;
     }
 
-    public void setLon(int lon) {
+    public void setLon(double lon) {
         this.lon = lon;
     }
 
-    public int getAlt() {
+    public double getAlt() {
         return alt;
     }
 
-    public void setAlt(int alt) {
+    public void setAlt(double alt) {
         this.alt = alt;
     }
 }
