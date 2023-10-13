@@ -5,7 +5,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +42,9 @@ public class LoginActivity extends AppCompatActivity {
     LocationManager locationMng;
     Location loc_current;
     double lon, lat, alt; //위도, 경도, 고도
+
+    private final int MY_PERMISSIONS_REQUEST_FINE_LOCATION=1001;
+
 
 
     @SuppressLint("MissingPermission")
@@ -137,8 +142,42 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    //위치정보 권한 요청
 
+    //위치정보 권한 요청
+    public void accessGps(){
+       int permissionCheck = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION);
+       if(permissionCheck!=PackageManager.PERMISSION_GRANTED){
+           Toast.makeText(this,"권한 승인이 필요합니다",Toast.LENGTH_LONG).show();
+       }if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)) {
+            Toast.makeText(this," 위치정보 권한이 필요합니다.",Toast.LENGTH_LONG).show();
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+            Toast.makeText(this,"위치정보 권한이 필요합니다.",Toast.LENGTH_LONG).show();
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(this, "승인이 허가되어 있습니다.", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(this, "아직 승인받지 않았습니다.", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+
+        }
+    }
 
     @Override
     protected void onPause() {
