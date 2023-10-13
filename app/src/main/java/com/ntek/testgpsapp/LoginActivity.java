@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -92,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i("LoginActivity","onResume Called");
-
+        accessGps(this);    //위치정보 권한 요청 메소드
 
         final InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
@@ -112,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // 로그인 버튼 이벤트
         loginBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 // 입력한 아이디, 비밀번호
@@ -121,12 +123,6 @@ public class LoginActivity extends AppCompatActivity {
                 List<User> findByUserAssign = db.userDao().findByUserAssign(uId, uPw);  // db에서 해당 계정 찾기
 
                 if(findByUserAssign.size() > 0){ //계정이 있으면 로그인 성공
-//                    accessGps();    //위치정보 권한 요청 메소드
-                    if ( Build.VERSION.SDK_INT >= 23 &&
-                            ContextCompat.checkSelfPermission( getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-                        ActivityCompat.requestPermissions( LoginActivity.this, new String[] {  android.Manifest.permission.ACCESS_FINE_LOCATION  },
-                                MY_PERMISSIONS_REQUEST_FINE_LOCATION );
-                    }else{
                         // 위도, 경도, 고도
                         lon = loc_current.getLongitude();
                         lat = loc_current.getLatitude();
@@ -135,11 +131,6 @@ public class LoginActivity extends AppCompatActivity {
                         // 데이터 객체
                         Gps gps = new Gps(uId,lat,lon,alt);
                         db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
-
-                        locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,1,gpsLocationListener);
-                        locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,1000,1,gpsLocationListener);
-                    }
-
 
                     Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
 
@@ -155,6 +146,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    //위치정보 권한 요청
+    public void accessGps(Activity activity){
+       int permissionCheck = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION);
+       if(permissionCheck!=PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+//            Toast.makeText(activity,"위치정보 권한이 필요합니다.",Toast.LENGTH_LONG).show();
+        }
+
+    }
+
     final LocationListener gpsLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(@NonNull Location location) {
@@ -169,22 +174,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
-
-    //위치정보 권한 요청
-//    public void accessGps(){
-//       int permissionCheck = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION);
-//       if(permissionCheck!=PackageManager.PERMISSION_GRANTED){
-//           Toast.makeText(this,"권한 승인이 필요합니다",Toast.LENGTH_LONG).show();
-//       }else if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-//                Manifest.permission.ACCESS_FINE_LOCATION)) {
-//            Toast.makeText(this," 위치정보 권한이 필요합니다.",Toast.LENGTH_LONG).show();
-//        } else {
-//            ActivityCompat.requestPermissions(this,
-//                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
-//            Toast.makeText(this,"위치정보 권한이 필요합니다.",Toast.LENGTH_LONG).show();
-//        }
-//    }
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
