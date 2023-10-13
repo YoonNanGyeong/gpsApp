@@ -2,6 +2,7 @@ package com.ntek.testgpsapp;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
@@ -13,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -115,19 +117,28 @@ public class LoginActivity extends AppCompatActivity {
                 uId = id.getText().toString();
                 uPw = pw.getText().toString();
 
-                // 위도, 경도, 고도
-                lon = loc_current.getLongitude();
-                lat = loc_current.getLatitude();
-                alt = loc_current.getAltitude();
-
                 // 데이터 객체
                 Gps gps = new Gps(uId,lat,lon,alt);
 
                 List<User> findByUserAssign = db.userDao().findByUserAssign(uId, uPw);  // db에서 해당 계정 찾기
 
                 if(findByUserAssign.size() > 0){ //계정이 있으면 로그인 성공
-//                    db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
-                    Toast.makeText(LoginActivity.this, "로그인 성공!(위치정보 저장)", Toast.LENGTH_SHORT).show();
+                    accessGps();    //위치정보 권한 요청 메소드
+                    final LocationListener gpsLocationListener = new LocationListener() {
+                        @Override
+                        public void onLocationChanged(@NonNull Location location) {
+                            // 위도, 경도, 고도 저장
+                            lon = loc_current.getLongitude();
+                            lat = loc_current.getLatitude();
+                            alt = loc_current.getAltitude();
+
+//                            locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,1,gpsLocationListener);
+
+                            db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
+                        }
+                    };
+
+                    Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     intent.putExtra("id",uId);
