@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("MainActivity","onCreate Called");
         setContentView(R.layout.activity_main);
 
         // appbar 타이틀 및 배경색 변경
@@ -50,5 +52,42 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i("MainActivity","onStart Called");
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("MainActivity","onResume Called");
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i("MainActivity","onPause Called");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("MainActivity","onStop Called");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i("MainActivity","onDestroy Called");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i("MainActivity","onRestart Called");
+    }
 
 }

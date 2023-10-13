@@ -33,12 +33,19 @@ public class SignupActivity extends AppCompatActivity {
     private AppDatabase db;
     EditText id, pw, pwChk, email;
     AppCompatButton joinBtn;
+    ScrollView outSide;
     String uId, uPw, uEmail, uPwChk;
+
+    TextView tv_errorMsg_id;
+    TextView tv_errorMsg_pw;
+    TextView tv_errorMsg_pw2; //비밀번호 확인
+    TextView tv_errorMsg_email;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        Log.i("SignupActivity","onPostCreate Called");
         setContentView(R.layout.activity_signup);
 
 
@@ -54,15 +61,28 @@ public class SignupActivity extends AppCompatActivity {
         pw = findViewById(R.id.signPW);
         email = findViewById(R.id.signEmail);
         joinBtn = findViewById(R.id.signUpButton);
+         // 에러메세지
+        tv_errorMsg_id = findViewById(R.id.errorMsg_signId);
+        tv_errorMsg_pw = findViewById(R.id.errorMsg_signPW);
+        tv_errorMsg_pw2 = findViewById(R.id.errorMsg_signPW2);
+        tv_errorMsg_email = findViewById(R.id.errorMsg_signEmail);
+         // 필드 외 영역
+        outSide = findViewById(R.id.layout_signUp_outSide);
 
+    }
 
-        // 에러메세지
-        TextView tv_errorMsg_id = findViewById(R.id.errorMsg_signId);
-        TextView tv_errorMsg_pw = findViewById(R.id.errorMsg_signPW);
-        TextView tv_errorMsg_pw2 = findViewById(R.id.errorMsg_signPW2); //비밀번호 확인
-        TextView tv_errorMsg_email = findViewById(R.id.errorMsg_signEmail);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i("SignupActivity","onStart Called");
 
-        ScrollView outSide = findViewById(R.id.layout_signUp_outSide);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("SignupActivity","onResume Called");
+
         final InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
         // 필드 영역 외 터치
@@ -151,10 +171,9 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-
         /*
-        * 회원가입 버튼 클릭
-        * */
+         * 회원가입 버튼 클릭
+         * */
         joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,7 +183,7 @@ public class SignupActivity extends AppCompatActivity {
 
                 // data 객체
                 User user = new User(uId,uPw,uEmail);
-                
+
                 // 필수값을 입력 안했을 경우
                 if(uId.length() == 0 ||uPw.length() == 0 ||uEmail.length() == 0){
                     Toast.makeText(SignupActivity.this, "입력 값이 없습니다.", Toast.LENGTH_SHORT).show();
@@ -181,10 +200,49 @@ public class SignupActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
+    /*
+     * appbar에서 뒤로가기 눌렀을 때 로그인 화면으로 이동
+     * */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        Log.i("SignupActivity","onOptionsItemSelected Called");
+        switch (item.getItemId()){
+            case android.R.id.home:{
+                //액티비티 이동
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("SignupActivity","onStop Called");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i("SignupActivity","onDestroy Called");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i("SignupActivity","onPause Called");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i("SignupActivity","onRestart Called");
+    }
 
     /*
     * NOT NULL 확인 메소드
@@ -198,29 +256,6 @@ public class SignupActivity extends AppCompatActivity {
         return true;
     }
 
-    /*
-    * 입력 값 검증 메소드
-    * */
-    private void inputVerify(String userId,String userEmail){
-        List<User> findByIdList = db.userDao().findByUserId(userId);
-        List<User> findByEmailList = db.userDao().findByEmail(userEmail);
-
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case android.R.id.home:{
-                //액티비티 이동
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
 }

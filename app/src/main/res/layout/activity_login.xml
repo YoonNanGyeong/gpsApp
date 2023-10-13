@@ -35,15 +35,16 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_marginBottom="30dp"
-            android:ems="10"
             android:textSize="13dp"
             android:hint="아이디"
             app:endIconMode="clear_text"
-            android:maxLength="12"
             >
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/user_loginId"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:ems="12"
+            />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -54,21 +55,21 @@
             android:layout_height="60dp"
             android:layout_marginBottom="30dp"
             android:layout_gravity="center"
-            android:ems="10"
             android:textSize="13dp"
             android:hint="비밀번호"
             app:endIconMode="clear_text"
-            android:maxLength="16"
             >
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/user_loginPw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:ems="16"
             />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/loginbutton"
+            android:id="@+id/loginButton"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_marginTop="20dp"
