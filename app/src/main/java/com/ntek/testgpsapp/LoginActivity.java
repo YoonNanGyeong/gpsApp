@@ -6,8 +6,12 @@ import androidx.appcompat.widget.AppCompatButton;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ntek.testgpsapp.Entity.User;
@@ -20,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView sign;
     TextInputEditText id, pw;
     AppCompatButton loginBtn;
+    LinearLayout outSide;
 
     String uId, uPw;
 
@@ -49,14 +54,13 @@ public class LoginActivity extends AppCompatActivity {
         id = findViewById(R.id.user_loginId);
         pw = findViewById(R.id.user_loginPw);
         loginBtn = findViewById(R.id.loginButton);
-
+        outSide = findViewById(R.id.layout_login_outside);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         Log.i("LoginActivity","onStart Called");
-
     }
 
     @Override
@@ -64,11 +68,45 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
         Log.i("LoginActivity","onResume Called");
 
+        // 입력한 아이디, 비밀번호
+        uId = id.getText().toString();
+        uPw = pw.getText().toString();
+
+        final InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+
+        outSide.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                // 포커스 해제
+                id.clearFocus();
+                pw.clearFocus();
+
+                // 키보드 내리기
+                manager.hideSoftInputFromWindow(view.getWindowToken(),0);
+
+                return false;
+            }
+        });
+
+        // 로그인 버튼 이벤트
         loginBtn.setOnClickListener(new View.OnClickListener() {
-            List<User> findByIdList = db.userDao().findByUserId(id.getText().toString());
+            List<User> findByUserAssign = db.userDao().findByUserAssign(uId, uPw);  // db에서 해당 계정 찾기
+
             @Override
             public void onClick(View view) {
+                if(findByUserAssign.size() > 0){ //계정이 있으면 로그인 성공
+                    Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
 
+                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    intent.putExtra("id",uId);
+                    intent.putExtra("pw",uPw);
+
+                    startActivity(intent);
+
+                }else{
+                    Toast.makeText(LoginActivity.this, "로그인 실패..", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
         });
     }

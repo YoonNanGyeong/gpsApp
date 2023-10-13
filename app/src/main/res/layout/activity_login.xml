@@ -10,18 +10,16 @@
     tools:context=".LoginActivity">
 
     <LinearLayout
+        android:id="@+id/layout_login_outside"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="140dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="30dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/logintext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="140dp"
             android:layout_marginBottom="60dp"
             android:text="로그인"
             android:textColor="@color/black"

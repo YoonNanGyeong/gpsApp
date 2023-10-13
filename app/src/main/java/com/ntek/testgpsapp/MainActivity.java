@@ -15,11 +15,10 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 public class MainActivity extends AppCompatActivity {
-
-    // 전역변수
+    private AppDatabase db;
     TabLayout tabLayout;
     ViewPager2 viewPager;
-    String[] str = new String[] { "아이디 내림차순", "아이디 오름차순"};
+    String[] str;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +26,16 @@ public class MainActivity extends AppCompatActivity {
         Log.i("MainActivity","onCreate Called");
         setContentView(R.layout.activity_main);
 
+        str = new String[] { "아이디 내림차순", "아이디 오름차순"};
+
         // appbar 타이틀 및 배경색 변경
         getSupportActionBar().setTitle("위치정보 목록");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F7F2FA")));
 
-        // xml 연결
+        // 데이터베이스 인스턴스 생성
+        db = AppDatabase.getInstance(this);
+
+        // xml객체 뷰 바인딩
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.pager);
 
@@ -44,8 +48,10 @@ public class MainActivity extends AppCompatActivity {
                 (tab, position) -> tab.setText(str[position])
         ).attach();
 
+
     }
 
+    //appbar 메뉴 옵션 추가
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -56,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.i("MainActivity","onStart Called");
-
     }
 
     @Override

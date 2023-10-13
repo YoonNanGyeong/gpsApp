@@ -18,6 +18,10 @@ public interface UserDAO {
     @Query("SELECT * FROM user WHERE userId = :userId")
     List<User> findByUserId(String userId);
 
+    // 동일 아이디, 비밀번호 계정 조회
+    @Query("SELECT * FROM user WHERE userId = :userId and userPw = :userPw")
+    List<User> findByUserAssign(String userId, String userPw);
+
 
     // 동일 이메일 조회
     @Query("SELECT * FROM user WHERE userEmail = :userEmail")
