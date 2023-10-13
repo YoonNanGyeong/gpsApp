@@ -1,7 +1,7 @@
 package com.ntek.testgpsapp;
 
-import static android.content.Context.LOCALE_SERVICE;
-
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                 List<User> findByUserAssign = db.userDao().findByUserAssign(uId, uPw);  // db에서 해당 계정 찾기
 
                 if(findByUserAssign.size() > 0){ //계정이 있으면 로그인 성공
-                    db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
+//                    db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
                     Toast.makeText(LoginActivity.this, "로그인 성공!(위치정보 저장)", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
@@ -136,6 +136,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    //위치정보 권한 요청
+
 
     @Override
     protected void onPause() {
