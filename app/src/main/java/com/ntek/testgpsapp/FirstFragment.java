@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 
 public class FirstFragment extends Fragment {
+    private AppDatabase db;
     public RecyclerView firstRecycler;  //리사이클러 뷰 생성
     public RecyclerView.Adapter firstAdapter;   //어댑터 생성
     public ArrayList<Gps>gps_items = new ArrayList<>(); //gps 데이터 생성
@@ -24,10 +25,12 @@ public class FirstFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.e("로그: ","onCreateView");
+        Log.i("FirstFragment","onCreateView Called");
+
         View view = inflater.inflate(R.layout.fragment_first, container, false);
         firstRecycler = (RecyclerView) view.findViewById(R.id.firstRecycler);
         firstRecycler.setHasFixedSize(true);
+
 
         return view;
     }
@@ -35,12 +38,13 @@ public class FirstFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.e("로그: ","onStart");
+        Log.i("FirstFragment","onStart Called");
+
 
         /*
          * arrayList 데이터 추가 예시
          * */
-        for(int i=0; i<5; i++){
+        for(int i=0; i < gps_items.size(); i++){
             gps_items.add(new Gps("아이디",0,0,0));
         }
 

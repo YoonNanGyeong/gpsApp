@@ -4,20 +4,27 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 public class MainActivity extends AppCompatActivity {
     private AppDatabase db;
+    private Menu logOutBtn;
     TabLayout tabLayout;
     ViewPager2 viewPager;
+
     String[] str;
 
     @Override
@@ -39,24 +46,48 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.pager);
 
-        // adapter 준비 및 연결
-        TabPagerAdapter adapter = new TabPagerAdapter(this);
-        viewPager.setAdapter(adapter);
-
-        // TabLayout, ViewPager 연결
-        new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> tab.setText(str[position])
-        ).attach();
-
-
     }
 
-    //appbar 메뉴 옵션 추가
+    //appbar 메뉴 옵션 추가(모양 변경)
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
+
+    //appbar 메뉴 클릭 이벤트 처리
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId() == R.id.logOut_action){
+            logOutAction();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void logOutAction(){
+        //alert dialog 생성
+        new AlertDialog.Builder(this)
+                .setTitle("알림")
+                .setMessage("로그아웃 하시겠습니까?")
+                .setPositiveButton("예", new DialogInterface.OnClickListener() { //예 버튼 클릭 이벤트
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);  //로그인 화면으로 전환
+                    }
+                })
+                .setPositiveButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MainActivity.this, "로그아웃 취소", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        }
+
+
+
 
     @Override
     protected void onStart() {
@@ -69,6 +100,14 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Log.i("MainActivity","onResume Called");
 
+        // adapter 준비 및 연결
+        TabPagerAdapter adapter = new TabPagerAdapter(this);
+        viewPager.setAdapter(adapter);
+
+        // TabLayout, ViewPager 연결
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> tab.setText(str[position])
+        ).attach();
     }
 
     @Override
