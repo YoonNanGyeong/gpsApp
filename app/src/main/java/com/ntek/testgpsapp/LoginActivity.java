@@ -68,10 +68,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
         Log.i("LoginActivity","onResume Called");
 
-        // 입력한 아이디, 비밀번호
-        uId = id.getText().toString();
-        uPw = pw.getText().toString();
-
         final InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
         outSide.setOnTouchListener(new View.OnTouchListener() {
@@ -90,10 +86,14 @@ public class LoginActivity extends AppCompatActivity {
 
         // 로그인 버튼 이벤트
         loginBtn.setOnClickListener(new View.OnClickListener() {
-            List<User> findByUserAssign = db.userDao().findByUserAssign(uId, uPw);  // db에서 해당 계정 찾기
-
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                // 입력한 아이디, 비밀번호
+                uId = id.getText().toString();
+                uPw = pw.getText().toString();
+
+                List<User> findByUserAssign = db.userDao().findByUserAssign(uId, uPw);  // db에서 해당 계정 찾기
+
                 if(findByUserAssign.size() > 0){ //계정이 있으면 로그인 성공
                     Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
 
@@ -102,7 +102,6 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra("pw",uPw);
 
                     startActivity(intent);
-
                 }else{
                     Toast.makeText(LoginActivity.this, "로그인 실패..", Toast.LENGTH_SHORT).show();
                     return;
