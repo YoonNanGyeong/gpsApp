@@ -12,7 +12,7 @@ import com.ntek.testgpsapp.DAO.UserDAO;
 import com.ntek.testgpsapp.Entity.Gps;
 import com.ntek.testgpsapp.Entity.User;
 
-@Database(entities = {User.class, Gps.class}, version = 1)
+@Database(entities = {User.class, Gps.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase database;
     private static String DATABASE_NAME = "appDB";

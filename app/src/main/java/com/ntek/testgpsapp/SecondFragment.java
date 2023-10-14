@@ -40,7 +40,7 @@ public class SecondFragment extends Fragment {
         * arrayList 데이터 추가 예시
         * */
         for(int i=0; i<5; i++){
-            gps_items.add(new Gps("아이디",0,0,0));
+            gps_items.add(new Gps(0,"아이디",0,0,0,""));
         }
 
         /*

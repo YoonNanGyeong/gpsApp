@@ -31,6 +31,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.ntek.testgpsapp.Entity.Gps;
 import com.ntek.testgpsapp.Entity.User;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -46,7 +49,11 @@ public class LoginActivity extends AppCompatActivity {
     LocationManager locationMng;
     Location loc_current;
     double lon, lat, alt; //위도, 경도, 고도
+    LocalDateTime today;
+    String formatedNow;
     int gpsSeq; //위치정보 순번
+    int totalNum;   //위치정보 데이터개수
+
     private final int MY_PERMISSIONS_REQUEST_FINE_LOCATION=1001;
 
 
@@ -82,6 +89,16 @@ public class LoginActivity extends AppCompatActivity {
 
         locationMng = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         loc_current = locationMng.getLastKnownLocation(LocationManager.GPS_PROVIDER);   //현재위치정보
+
+        //위도,경도,고도 초기값
+        lon = 0.0;
+        lat = 0.0;
+        alt = 0.0;
+
+        totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
+        gpsSeq = totalNum + 1;  //위치정보데이터 순번
+        today = LocalDateTime.now();    //현재 시간
+        formatedNow = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));   //시간 포맷
     }
 
     @Override
@@ -96,7 +113,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
         Log.i("LoginActivity","onResume Called");
 
-
+        /*
+        * 다른영역 터치(포커스해제 키보드 내림)
+        * */
         final InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
         outSide.setOnTouchListener(new View.OnTouchListener() {
@@ -130,9 +149,8 @@ public class LoginActivity extends AppCompatActivity {
                         lat = loc_current.getLatitude();
                         alt = loc_current.getAltitude();
 
-                        // 데이터 객체
-                        Gps gps = new Gps(uId,lat,lon,alt);
-                        db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
+                        // 위치정보 db에 저장
+                        gpsData(uId,lat,lon,alt);
 
                     Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
 
@@ -151,11 +169,11 @@ public class LoginActivity extends AppCompatActivity {
 
     //위치정보 데이터 순번 얻기
     public void gpsData(String uId, double lat, double lon, double alt){
-        int gpsSeq = 0;
-        int totalNum = db.gpsDao().gpsDataNumber();
-        for(int i = 0; i < totalNum; i++){
+        // 데이터 객체
+        Gps gps = new Gps(gpsSeq,uId,lat,lon,alt,formatedNow);
+        db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
 
-        }
+        Log.i("gpsData",gps.toString()); //위치정보 데이터 확인 로그
     }
 
 
@@ -167,22 +185,7 @@ public class LoginActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_FINE_LOCATION);
         }
-
     }
-
-    final LocationListener gpsLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(@NonNull Location location) {
-            // 위도, 경도, 고도
-            lon = loc_current.getLongitude();
-            lat = loc_current.getLatitude();
-            alt = loc_current.getAltitude();
-
-            // 데이터 객체
-            Gps gps = new Gps(uId,lat,lon,alt);
-            db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
-        }
-    };
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -204,17 +207,36 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
+    //위치정보 업데이트
+    final LocationListener gpsLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(@NonNull Location location) {
+            // 위도, 경도, 고도
+            lon = loc_current.getLongitude();
+            lat = loc_current.getLatitude();
+            alt = loc_current.getAltitude();
 
+            // 데이터 객체
+            Gps gps = new Gps(gpsSeq,uId,lat,lon,alt,formatedNow);
+            db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
+        }
+    };
+
+
+    @SuppressLint("MissingPermission")
     @Override
     protected void onPause() {
         super.onPause();
         Log.i("LoginActivity","onPause Called");
+        locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,100000,10.0f,gpsLocationListener);
+        locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,100000,10.0f,gpsLocationListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Log.i("LoginActivity","onStop Called");
+        locationMng.removeUpdates(gpsLocationListener);
     }
 
     @Override
