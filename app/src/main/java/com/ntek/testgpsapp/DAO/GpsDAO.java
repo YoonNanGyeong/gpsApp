@@ -26,5 +26,9 @@ public interface GpsDAO {
     @Insert
     void insertAll(Gps... gps);
 
+    // 데이터 갯수 조회
+    @Query("SELECT COUNT(*) FROM Gps")
+    int gpsDataNumber();
+
 
 }

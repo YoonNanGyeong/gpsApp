@@ -7,9 +7,13 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Gps {
-    //접속 아이디
+
+    //순번
     @PrimaryKey
     @NonNull
+    public int gps_seq;
+
+    //접속 아이디
     public String GPS_uid;
 
     //경도

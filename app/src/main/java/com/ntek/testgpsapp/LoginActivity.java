@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     LocationManager locationMng;
     Location loc_current;
     double lon, lat, alt; //위도, 경도, 고도
-
+    int gpsSeq; //위치정보 순번
     private final int MY_PERMISSIONS_REQUEST_FINE_LOCATION=1001;
 
 
@@ -149,6 +149,15 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    //위치정보 데이터 순번 얻기
+    public void gpsData(String uId, double lat, double lon, double alt){
+        int gpsSeq = 0;
+        int totalNum = db.gpsDao().gpsDataNumber();
+        for(int i = 0; i < totalNum; i++){
+
+        }
+    }
+
 
     //위치정보 권한 요청
     public void accessGps(Activity activity){
@@ -157,7 +166,6 @@ public class LoginActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(activity,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_FINE_LOCATION);
-//            Toast.makeText(activity,"위치정보 권한이 필요합니다.",Toast.LENGTH_LONG).show();
         }
 
     }
