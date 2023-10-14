@@ -23,7 +23,7 @@ public class SecondFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.e("로그: ","onCreateView");
+        Log.e("SecondFragment","onCreateView Called");
         View view = inflater.inflate(R.layout.fragment_second, container, false);
         secondRecycler = (RecyclerView) view.findViewById(R.id.secondRecycler);
         secondRecycler.setHasFixedSize(true);
@@ -34,7 +34,7 @@ public class SecondFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.e("로그: ","onStart");
+        Log.e("SecondFragment","onStart Called");
 
         /*
         * arrayList 데이터 추가 예시

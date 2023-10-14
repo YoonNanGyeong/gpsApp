@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         Log.i("LoginActivity", "onPostCreate Called");
 
+
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
@@ -87,13 +88,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.i("LoginActivity","onStart Called");
+        accessGps(this);    //위치정보 권한 요청 메소드
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.i("LoginActivity","onResume Called");
-        accessGps(this);    //위치정보 권한 요청 메소드
+
 
         final InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
@@ -184,10 +186,10 @@ public class LoginActivity extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    Toast.makeText(this, "승인이 허가되어 있습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "위치정보 제공 승인을 허가하였습니다.", Toast.LENGTH_LONG).show();
 
                 } else {
-                    Toast.makeText(this, "아직 승인받지 않았습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "위치정보 제공을 승인 받지않았습니다.", Toast.LENGTH_LONG).show();
                 }
                 return;
             }
