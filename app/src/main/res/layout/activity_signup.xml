@@ -54,8 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:textSize="13dp"
-                    android:text=""
-                    android:textColor="@color/error"
+                    android:text="필수입력"
                 />
 
                 <TextView
@@ -88,8 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:textSize="13dp"
-                    android:text=""
-                    android:textColor="@color/error"
+                    android:text="최소 6자리 이상 (필수입력)"
                 />
 
 
@@ -139,7 +137,6 @@
                     android:layout_marginBottom="10dp"
                     android:textSize="13dp"
                     android:text=""
-                    android:textColor="@color/error"
                 />
 
 
@@ -172,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:textSize="13dp"
-                    android:text=""
+                    android:text="이메일 형식 ****@mail.com"
                 />
 
                 <androidx.appcompat.widget.AppCompatButton

@@ -36,7 +36,7 @@ public class FirstFragment extends Fragment {
         Log.i("FirstFragment","onCreateView Called");
 
         View view = inflater.inflate(R.layout.fragment_first, container, false);
-        firstRecycler = view.findViewById(R.id.firstRecycler);
+        firstRecycler = (RecyclerView)view.findViewById(R.id.firstRecycler);
         firstRecycler.setHasFixedSize(true);
 
         init();
@@ -74,7 +74,7 @@ public class FirstFragment extends Fragment {
         /*
          * recyclerView에 데이터 전송
          * */
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         firstRecycler.setLayoutManager(layoutManager);
 
         firstAdapter = new AppDBAdapter();

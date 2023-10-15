@@ -33,7 +33,7 @@ public class SecondFragment extends Fragment {
         Log.i("SecondFragment","onCreateView Called");
         View view = inflater.inflate(R.layout.fragment_second, container, false);
         secondRecycler = (RecyclerView) view.findViewById(R.id.secondRecycler);
-        secondRecycler.setHasFixedSize(true);
+        secondRecycler.setHasFixedSize(false);
 
         init();
         getData();

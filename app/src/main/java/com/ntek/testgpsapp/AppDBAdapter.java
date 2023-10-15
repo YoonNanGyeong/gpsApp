@@ -32,6 +32,11 @@ public class AppDBAdapter extends RecyclerView.Adapter<AppDBAdapter.ViewHolder> 
         return gpsList.size();
     }
 
+    @Override
+    public int getItemViewType(int position){
+        return position;
+    }
+
     // 외부에서 item 추가
     public void addItem(Gps gpsData){
         gpsList.add(gpsData);

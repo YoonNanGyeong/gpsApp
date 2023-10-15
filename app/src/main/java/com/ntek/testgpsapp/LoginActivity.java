@@ -219,6 +219,12 @@ public class LoginActivity extends AppCompatActivity {
             lat = loc_current.getLatitude();
             alt = loc_current.getAltitude();
 
+            List<Gps> findBySeq = db.gpsDao().findByGpsSeq(gpsSeq);
+            if(findBySeq.size()>0){
+                totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
+                gpsSeq = totalNum + 1;  //위치정보데이터 순번
+            }
+
             // 데이터 객체
             Gps gps = new Gps(gpsSeq,uId,lat,lon,alt,formatedNow);
             db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장

@@ -3,7 +3,7 @@ package com.ntek.testgpsapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.room.Room;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -16,23 +16,21 @@ import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ntek.testgpsapp.DAO.UserDAO;
 import com.ntek.testgpsapp.Entity.User;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class SignupActivity extends AppCompatActivity {
     private AppDatabase db;
     EditText id, pw, pwChk, email;
-    AppCompatButton joinBtn;
+    AppCompatButton joinBtn, pwChkBtn;
     ScrollView outSide;
     String uId, uPw, uEmail, uPwChk;
 
@@ -40,6 +38,9 @@ public class SignupActivity extends AppCompatActivity {
     TextView tv_errorMsg_pw;
     TextView tv_errorMsg_pw2; //비밀번호 확인
     TextView tv_errorMsg_email;
+
+    final String HANGUL = ".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*"; //한글패턴
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -60,7 +61,9 @@ public class SignupActivity extends AppCompatActivity {
         id = findViewById(R.id.signID);
         pw = findViewById(R.id.signPW);
         email = findViewById(R.id.signEmail);
+        pwChk = findViewById(R.id.signPW2);
         joinBtn = findViewById(R.id.signUpButton);
+        pwChkBtn = findViewById(R.id.pwcheckbutton);
          // 에러메세지
         tv_errorMsg_id = findViewById(R.id.errorMsg_signId);
         tv_errorMsg_pw = findViewById(R.id.errorMsg_signPW);
@@ -101,7 +104,73 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        // 입력필드 값 변경 이벤트
+
+        // 입력필드 값 검증
+        verifyOfInput();
+
+        /*
+         * 회원가입 버튼 클릭
+         * */
+        joinBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uId = id.getText().toString();
+                uPw = pw.getText().toString();
+                uPwChk = pwChk.getText().toString();
+                uEmail = email.getText().toString();
+
+                // data 객체
+                User user = new User(uId,uPw,uEmail);
+
+                // 필수값을 입력 안했을 경우
+                if(uId.length() == 0 ||uPw.length() == 0 ||uEmail.length() == 0){
+                    Toast.makeText(SignupActivity.this, "입력 값이 없습니다.", Toast.LENGTH_SHORT).show();
+                    id.requestFocus();
+                }else if(uPw.length() != uPwChk.length() || uPw.length() < 6){
+                    Toast.makeText(SignupActivity.this, "비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    pw.requestFocus();
+                }else if(!Patterns.EMAIL_ADDRESS.matcher(uEmail.toString()).matches()){
+                    Toast.makeText(SignupActivity.this, "이메일형식을 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    email.requestFocus();
+                }
+                else{
+                    //abstract interface 구현 -> UserDAO를 사용하여 db 저장
+                    db.userDao().insertAll(user);
+                    Toast.makeText(SignupActivity.this, "회원가입 완료!", Toast.LENGTH_SHORT).show();
+
+                    //로그인 화면으로 전환
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
+
+            }
+        });
+
+        /*
+         * 비밀번호 확인 버튼 클릭
+         * */
+        pwChkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uPw = pw.getText().toString();
+                uPwChk = pwChk.getText().toString();
+
+                if(uPw.length() != uPwChk.length()){
+                    tv_errorMsg_pw2.setText("비밀번호가 일치하지 않습니다.");    // 경고메세지
+                    pwChk.setBackgroundResource(R.drawable.error_input);   //테두리 변경
+                    tv_errorMsg_pw2.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
+
+                }else{
+                    tv_errorMsg_pw2.setText("비밀번호가 일치합니다.");   // 확인메세지
+                    tv_errorMsg_pw2.setTextColor( Color.parseColor("#34C759")); //메세지 색상변경
+                    pwChk.setBackgroundResource(R.drawable.success_input);   //테두리 변경
+                }
+            }
+        });
+    }
+
+    // 입력값 검증
+    public void verifyOfInput(){
         id.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -109,18 +178,44 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // 아이디중복 확인
+                List<User> findByUserId =  db.userDao().findByUserId(charSequence.toString());
+                if(findByUserId.size()>0){
+                    tv_errorMsg_id.setText("이미 존재하는 아이디입니다.");    //경고메세지
+                    id.setBackgroundResource(R.drawable.error_input);   //테두리 변경
+                    tv_errorMsg_id.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
+
+                }
+                else{
+                    tv_errorMsg_id.setText("");    //경고메세지 제거
+                    id.setBackgroundResource(R.drawable.success_input);   //테두리 변경
+
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                uId = id.getText().toString();
-
-                if(nullVerify(uId)==false){ // 입력값 없을 경우
+                List<User> findByUserId =  db.userDao().findByUserId(editable.toString());
+                if(nullVerify(editable.toString())==false){ // 입력값 없을 경우
                     tv_errorMsg_id.setText("아이디는 필수입력입니다.");    //경고메세지
                     id.setBackgroundResource(R.drawable.error_input);   //테두리 변경
-                }else{
+                    tv_errorMsg_id.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
+
+                }else if(findByUserId.size()>0){
+                    tv_errorMsg_id.setText("이미 존재하는 아이디입니다.");    //경고메세지
+                    id.setBackgroundResource(R.drawable.error_input);   //테두리 변경
+                    tv_errorMsg_id.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
+
+                }else if(Pattern.compile(HANGUL).matcher(editable.toString()).matches()){
+                    //입력값이 한글인 경우
+                    tv_errorMsg_id.setText("영문 및 숫자 조합만 가능합니다.");    //경고메세지
+                    id.setBackgroundResource(R.drawable.error_input);   //테두리 변경
+                    tv_errorMsg_id.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
+                }
+                else{
                     tv_errorMsg_id.setText("");    //경고메세지 제거
-                    id.setBackgroundResource(R.drawable.unfocus_input_text);   //테두리 변경
+                    id.setBackgroundResource(R.drawable.success_input);   //테두리 변경
+
                 }
             }
         });
@@ -131,19 +226,42 @@ public class SignupActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if(nullVerify(charSequence.toString())==false){ // 입력값 없을 경우
+                    tv_errorMsg_pw.setText("비밀번호는 필수입력입니다.");    //경고메세지
+                    pw.setBackgroundResource(R.drawable.error_input);   //테두리 변경
+                    tv_errorMsg_pw.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
+
+                }
+                else{
+                    tv_errorMsg_pw.setText("");    //경고메세지 제거
+                    pw.setBackgroundResource(R.drawable.success_input);   //테두리 변경
+
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                uPw = pw.getText().toString();
+                if(editable.length() < 6){
+                    tv_errorMsg_pw.setText("비밀번호는 최소 6자리 이상이어야 합니다.");    //경고메세지
+                    pw.setBackgroundResource(R.drawable.error_input);   //테두리 변경
+                    tv_errorMsg_pw.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
 
-                if(nullVerify(uPw)==false){ // 입력값 없을 경우
+                }else if(nullVerify(editable.toString())==false){
                     tv_errorMsg_pw.setText("비밀번호는 필수입력입니다.");    //경고메세지
                     pw.setBackgroundResource(R.drawable.error_input);   //테두리 변경
-                }else{
+                    tv_errorMsg_pw.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
+
+                }else if(Pattern.compile(HANGUL).matcher(editable.toString()).matches()){
+                    //입력값이 한글인 경우
+                    tv_errorMsg_pw.setText("영문 및 숫자, 특수문자 조합만 가능합니다.");    //경고메세지
+                    pw.setBackgroundResource(R.drawable.error_input);   //테두리 변경
+                    tv_errorMsg_pw.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
+                }
+                else{
                     tv_errorMsg_pw.setText("");    //경고메세지 제거
-                    pw.setBackgroundResource(R.drawable.unfocus_input_text);   //테두리 변경
+                    pw.setBackgroundResource(R.drawable.success_input);   //테두리 변경
+
                 }
             }
         });
@@ -151,7 +269,6 @@ public class SignupActivity extends AppCompatActivity {
         email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -160,44 +277,17 @@ public class SignupActivity extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                if(!Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()){
+            public void afterTextChanged(Editable e) {
+                if(!Patterns.EMAIL_ADDRESS.matcher(e.toString()).matches()){
                     tv_errorMsg_email.setText("이메일 형식으로 입력해주세요");
                     email.setBackgroundResource(R.drawable.error_input);
+                    tv_errorMsg_email.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
+
                 }else{
                     tv_errorMsg_email.setText("");
-                    email.setBackgroundResource(R.drawable.unfocus_input_text);
+                    email.setBackgroundResource(R.drawable.success_input);
+
                 }
-            }
-        });
-
-        /*
-         * 회원가입 버튼 클릭
-         * */
-        joinBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uId = id.getText().toString();
-                uPw = pw.getText().toString();
-                uEmail = email.getText().toString();
-
-                // data 객체
-                User user = new User(uId,uPw,uEmail);
-
-                // 필수값을 입력 안했을 경우
-                if(uId.length() == 0 ||uPw.length() == 0 ||uEmail.length() == 0){
-                    Toast.makeText(SignupActivity.this, "입력 값이 없습니다.", Toast.LENGTH_SHORT).show();
-                    id.requestFocus();
-                }else{
-                    //abstract interface 구현 -> UserDAO를 사용하여 db 저장
-                    db.userDao().insertAll(user);
-                    Toast.makeText(SignupActivity.this, "회원가입 완료!", Toast.LENGTH_SHORT).show();
-
-                    //로그인 화면으로 전환
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
-                }
-
             }
         });
     }
