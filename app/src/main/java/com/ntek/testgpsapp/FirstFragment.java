@@ -1,7 +1,9 @@
 package com.ntek.testgpsapp;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,13 +16,19 @@ import android.view.ViewGroup;
 import com.ntek.testgpsapp.Entity.Gps;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class FirstFragment extends Fragment {
     private AppDatabase db;
     public RecyclerView firstRecycler;  //리사이클러 뷰 생성
-    public RecyclerView.Adapter firstAdapter;   //어댑터 생성
-    public ArrayList<Gps>gps_items = new ArrayList<>(); //gps 데이터 생성
+    public AppDBAdapter firstAdapter;   //어댑터 생성
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        db = AppDatabase.getInstance(getContext());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,9 +36,11 @@ public class FirstFragment extends Fragment {
         Log.i("FirstFragment","onCreateView Called");
 
         View view = inflater.inflate(R.layout.fragment_first, container, false);
-        firstRecycler = (RecyclerView) view.findViewById(R.id.firstRecycler);
+        firstRecycler = view.findViewById(R.id.firstRecycler);
         firstRecycler.setHasFixedSize(true);
 
+        init();
+        getData();
 
         return view;
     }
@@ -39,21 +49,35 @@ public class FirstFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.i("FirstFragment","onStart Called");
+    }
 
+    private void getData(){
+        List<Gps>totalList = db.gpsDao().listOrderByAsc();
 
         /*
-         * arrayList 데이터 추가 예시
+         * arrayList 데이터 추가
          * */
-        for(int i=0; i < 5; i++){
-            gps_items.add(new Gps(0,"아이디",0,0,0,""));
+        for(int i=0; i < totalList.size(); i++){
+            Gps resultGps = totalList.get(i);
+            Gps gps = new Gps(resultGps.getGps_seq(),resultGps.getGPS_uid(),resultGps.getLat(),
+                    resultGps.getLon(),resultGps.getAlt(), resultGps.getReg_date());
+            
+            // 각 값이 들어간 data를 adapter에 추가
+            firstAdapter.addItem(gps);
         }
 
+        // adapter 값 업데이트 명시
+        firstAdapter.notifyDataSetChanged();
+    }
+
+    private void init(){
         /*
          * recyclerView에 데이터 전송
          * */
-        firstAdapter = new AppDBAdapter(gps_items);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         firstRecycler.setLayoutManager(layoutManager);
+
+        firstAdapter = new AppDBAdapter();
         firstRecycler.setAdapter(firstAdapter);
     }
 }

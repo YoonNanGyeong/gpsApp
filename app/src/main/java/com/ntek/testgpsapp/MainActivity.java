@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         // xml객체 뷰 바인딩
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.pager);
+        viewPager.setNestedScrollingEnabled(true);
 
     }
 

@@ -4,8 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SecondFragment">
-   <androidx.recyclerview.widget.RecyclerView
-       android:id="@+id/secondRecycler"
+   <LinearLayout
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"/>
+       android:layout_height="wrap_content"
+       android:orientation="vertical">
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/secondRecycler"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"/>
+   </LinearLayout>
 </FrameLayout>

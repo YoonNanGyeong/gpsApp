@@ -30,5 +30,9 @@ public interface GpsDAO {
     @Query("SELECT COUNT(*) FROM Gps")
     int gpsDataNumber();
 
+    // 순번으로 조회
+    @Query("SELECT * FROM Gps where gps_seq = :gpsSeq")
+    List<Gps> findByGpsSeq(int gpsSeq);
+
 
 }

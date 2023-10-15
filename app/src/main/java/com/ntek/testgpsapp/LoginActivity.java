@@ -144,21 +144,21 @@ public class LoginActivity extends AppCompatActivity {
                 List<User> findByUserAssign = db.userDao().findByUserAssign(uId, uPw);  // db에서 해당 계정 찾기
 
                 if(findByUserAssign.size() > 0){ //계정이 있으면 로그인 성공
-                        // 위도, 경도, 고도
-                        lon = loc_current.getLongitude();
-                        lat = loc_current.getLatitude();
-                        alt = loc_current.getAltitude();
+                        List<Gps> findBySeq = db.gpsDao().findByGpsSeq(gpsSeq);
+                        if(findBySeq.size()>0){
+                            Log.i("LoginActivity","중복 순번 발견");
+                        }else{
+                            // 위치정보 db에 저장
+                            gpsData(uId);
+                        }
 
-                        // 위치정보 db에 저장
-                        gpsData(uId,lat,lon,alt);
+                        Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        intent.putExtra("id",uId);
+                        intent.putExtra("pw",uPw);
 
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                    intent.putExtra("id",uId);
-                    intent.putExtra("pw",uPw);
-
-                    startActivity(intent);  //메인화면으로 이동
+                        startActivity(intent);  //메인화면으로 이동
                 }else{
                     Toast.makeText(LoginActivity.this, "로그인 실패..", Toast.LENGTH_SHORT).show();
                     return;
@@ -167,13 +167,16 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    //위치정보 데이터 순번 얻기
-    public void gpsData(String uId, double lat, double lon, double alt){
-        // 데이터 객체
-        Gps gps = new Gps(gpsSeq,uId,lat,lon,alt,formatedNow);
-        db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
+    //위치정보 데이터 저장
+    public void gpsData(String uId){
+        // 위도, 경도, 고도
+        lon = loc_current.getLongitude();
+        lat = loc_current.getLatitude();
+        alt = loc_current.getAltitude();
 
-        Log.i("gpsData",gps.toString()); //위치정보 데이터 확인 로그
+        // 데이터 객체
+        Gps gps =  new Gps(gpsSeq,uId,lat,lon,alt,formatedNow);
+        db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
     }
 
 
@@ -223,13 +226,10 @@ public class LoginActivity extends AppCompatActivity {
     };
 
 
-    @SuppressLint("MissingPermission")
     @Override
     protected void onPause() {
         super.onPause();
         Log.i("LoginActivity","onPause Called");
-        locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,100000,10.0f,gpsLocationListener);
-        locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,100000,10.0f,gpsLocationListener);
     }
 
     @Override
@@ -245,10 +245,16 @@ public class LoginActivity extends AppCompatActivity {
         Log.i("LoginActivity","onDestroy Called");
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onRestart() {
         super.onRestart();
         Log.i("LoginActivity","onRestart Called");
+
+        totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
+        gpsSeq = totalNum + 1;  //위치정보데이터 순번
+        locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,100000,10.0f,gpsLocationListener);
+        locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,100000,10.0f,gpsLocationListener);
     }
 
 

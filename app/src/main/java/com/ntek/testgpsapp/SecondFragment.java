@@ -23,7 +23,7 @@ public class SecondFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.e("SecondFragment","onCreateView Called");
+        Log.i("SecondFragment","onCreateView Called");
         View view = inflater.inflate(R.layout.fragment_second, container, false);
         secondRecycler = (RecyclerView) view.findViewById(R.id.secondRecycler);
         secondRecycler.setHasFixedSize(true);
@@ -34,7 +34,7 @@ public class SecondFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.e("SecondFragment","onStart Called");
+        Log.i("SecondFragment","onStart Called");
 
         /*
         * arrayList 데이터 추가 예시
@@ -46,7 +46,7 @@ public class SecondFragment extends Fragment {
         /*
         * recyclerView에 데이터 전송
         * */
-        secondAdapter = new AppDBAdapter(gps_items);
+        secondAdapter = new AppDBAdapter();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         secondRecycler.setLayoutManager(layoutManager);
         secondRecycler.setAdapter(secondAdapter);
