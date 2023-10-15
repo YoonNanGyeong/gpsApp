@@ -41,7 +41,7 @@
                 android:id="@+id/user_loginId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="12"
+                android:maxLength="12"
             />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:ems="16"
+                android:maxLength="16"
             />
         </com.google.android.material.textfield.TextInputLayout>
 
