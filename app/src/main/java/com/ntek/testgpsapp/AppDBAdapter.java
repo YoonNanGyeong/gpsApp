@@ -46,9 +46,9 @@ public class AppDBAdapter extends RecyclerView.Adapter<AppDBAdapter.ViewHolder> 
         public ViewHolder(@NonNull View view) {
             super(view);
             listItem_id = (TextView) view.findViewById(R.id.listItem_id);
-            listItem_lon = (TextView)view.findViewById(R.id.listItem_lon);
-            listItem_lat = (TextView)view.findViewById(R.id.listItem_lat);
-            listItem_alt = (TextView)view.findViewById(R.id.listItem_alt);
+            listItem_lon = (TextView)view.findViewById(R.id.listItem_lon_text);
+            listItem_lat = (TextView)view.findViewById(R.id.listItem_lat_text);
+            listItem_alt = (TextView)view.findViewById(R.id.listItem_alt_text);
         }
         void onBind(Gps gpsData){
             String str_lon = Double.toString(gpsData.getLon());

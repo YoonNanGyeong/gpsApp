@@ -52,7 +52,7 @@ public class FirstFragment extends Fragment {
     }
 
     private void getData(){
-        List<Gps>totalList = db.gpsDao().listOrderByAsc();
+        List<Gps>totalList = db.gpsDao().listOrderByDesc();
 
         /*
          * arrayList 데이터 추가

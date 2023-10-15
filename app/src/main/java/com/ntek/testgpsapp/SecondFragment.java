@@ -2,6 +2,7 @@ package com.ntek.testgpsapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,12 +15,18 @@ import android.view.ViewGroup;
 import com.ntek.testgpsapp.Entity.Gps;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class SecondFragment extends Fragment {
+    private AppDatabase db;
     public RecyclerView secondRecycler;  //리사이클러 뷰 생성
-    public RecyclerView.Adapter secondAdapter;   //어댑터 생성
-    public ArrayList<Gps> gps_items = new ArrayList<>(); //gps 데이터 생성
+    public AppDBAdapter secondAdapter;   //어댑터 생성
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        db = AppDatabase.getInstance(getContext());
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -28,6 +35,9 @@ public class SecondFragment extends Fragment {
         secondRecycler = (RecyclerView) view.findViewById(R.id.secondRecycler);
         secondRecycler.setHasFixedSize(true);
 
+        init();
+        getData();
+
         return view;
     }
 
@@ -35,21 +45,36 @@ public class SecondFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.i("SecondFragment","onStart Called");
+    }
+
+    private void getData(){
+        List<Gps> totalList = db.gpsDao().listOrderByAsc();
 
         /*
-        * arrayList 데이터 추가 예시
-        * */
-        for(int i=0; i<5; i++){
-            gps_items.add(new Gps(0,"아이디",0,0,0,""));
+         * arrayList 데이터 추가
+         * */
+        for(int i=0; i < totalList.size(); i++){
+            Gps resultGps = totalList.get(i);
+            Gps gps = new Gps(resultGps.getGps_seq(),resultGps.getGPS_uid(),resultGps.getLat(),
+                    resultGps.getLon(),resultGps.getAlt(), resultGps.getReg_date());
+
+            // 각 값이 들어간 data를 adapter에 추가
+            secondAdapter.addItem(gps);
         }
 
-        /*
-        * recyclerView에 데이터 전송
-        * */
-        secondAdapter = new AppDBAdapter();
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        secondRecycler.setLayoutManager(layoutManager);
-        secondRecycler.setAdapter(secondAdapter);
-
+        // adapter 값 업데이트 명시
+        secondAdapter.notifyDataSetChanged();
     }
+
+    private void init(){
+        /*
+         * recyclerView에 데이터 전송
+         * */
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        secondRecycler.setLayoutManager(layoutManager);
+
+        secondAdapter = new AppDBAdapter();
+        secondRecycler.setAdapter(secondAdapter);
+    }
+
 }
