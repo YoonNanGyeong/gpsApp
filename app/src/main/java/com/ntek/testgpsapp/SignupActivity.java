@@ -41,6 +41,9 @@ public class SignupActivity extends AppCompatActivity {
     TextView tv_errorMsg_pw2;
     TextView tv_errorMsg_email;
 
+    /*
+    * 아이디 및 비밀번호 검증 정규표현식
+    * */
     final String ALLOW_ID_PATTERN = "^[a-zA-Z0-9]{5,12}+$"; // 영문 숫자 조합 6~12자리
     final String ALLOW_PW_PATTERN = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{6,16}+$"; // 영문 대소문자 + 숫자 + 특수문자 조합으로 6 ~ 16자리
 
@@ -108,7 +111,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
 
-        // 입력필드 값 검증
+        // 입력필드 값 검증 메소드(필수입력, 형식검증 등)
         verifyOfInput();
 
         /*
@@ -125,16 +128,13 @@ public class SignupActivity extends AppCompatActivity {
                 // data 객체
                 User user = new User(uId,uPw,uEmail);
 
-                // 필수값을 입력 안했을 경우
+                // 입력 여부 검증
                 if(uId.length() == 0 ||uPw.length() == 0 ||uEmail.length() == 0){
                     Toast.makeText(SignupActivity.this, "입력 값이 없습니다.", Toast.LENGTH_SHORT).show();
                     id.requestFocus();
-                }else if(uPw.length() != uPwChk.length() || uPw.length() < 6){
+                }else if(uPw.length() != uPwChk.length() || uPw.length() < 6){  // 비밀번호 확인
                     Toast.makeText(SignupActivity.this, "비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
                     pw.requestFocus();
-                }else if(!Patterns.EMAIL_ADDRESS.matcher(uEmail.toString()).matches()){
-                    Toast.makeText(SignupActivity.this, "이메일형식을 확인해주세요.", Toast.LENGTH_SHORT).show();
-                    email.requestFocus();
                 }
                 else{
                     //abstract interface 구현 -> UserDAO를 사용하여 db 저장
