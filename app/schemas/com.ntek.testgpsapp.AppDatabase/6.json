@@ -1,0 +1,96 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 6,
+    "identityHash": "8e8f8e3a5b312d38be5faaca0f132c4f",
+    "entities": [
+      {
+        "tableName": "user",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` TEXT NOT NULL, `userPw` TEXT, `userEmail` TEXT, PRIMARY KEY(`userId`))",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pw",
+            "columnName": "userPw",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "userEmail",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "userId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "gps",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gps_seq` INTEGER NOT NULL, `gps_id` TEXT NOT NULL, `gps_lat` REAL NOT NULL, `gps_lon` REAL NOT NULL, `gps_alt` REAL NOT NULL, `gps_reg_date` TEXT, PRIMARY KEY(`gps_seq`))",
+        "fields": [
+          {
+            "fieldPath": "gps_seq",
+            "columnName": "gps_seq",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gps_uid",
+            "columnName": "gps_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lat",
+            "columnName": "gps_lat",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lon",
+            "columnName": "gps_lon",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "alt",
+            "columnName": "gps_alt",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reg_date",
+            "columnName": "gps_reg_date",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "gps_seq"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8e8f8e3a5b312d38be5faaca0f132c4f')"
+    ]
+  }
+}

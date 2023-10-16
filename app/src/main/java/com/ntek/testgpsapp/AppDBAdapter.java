@@ -60,7 +60,7 @@ public class AppDBAdapter extends RecyclerView.Adapter<AppDBAdapter.ViewHolder> 
             String str_lat = Double.toString(gpsData.getLat());
             String str_alt = Double.toString(gpsData.getAlt());
 
-            listItem_id.setText(gpsData.getGPS_uid());
+            listItem_id.setText(gpsData.getGps_uid());
             listItem_lon.setText(str_lon);
             listItem_lat.setText(str_lat);
             listItem_alt.setText(str_alt);

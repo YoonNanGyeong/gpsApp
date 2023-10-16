@@ -54,7 +54,7 @@ public class SecondFragment extends Fragment {
 
         for(int i=0; i < totalList.size(); i++){
             Gps resultGps = totalList.get(i);
-            Gps gps = new Gps(resultGps.getGps_seq(),resultGps.getGPS_uid(),resultGps.getLat(),
+            Gps gps = new Gps(resultGps.getGps_seq(),resultGps.getGps_uid(),resultGps.getLat(),
                     resultGps.getLon(),resultGps.getAlt(), resultGps.getReg_date());
 
             // 각 값이 들어간 data를 adapter에 추가

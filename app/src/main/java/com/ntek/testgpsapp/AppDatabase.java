@@ -13,10 +13,11 @@ import com.ntek.testgpsapp.Entity.Gps;
 import com.ntek.testgpsapp.Entity.User;
 
 @Database(
-        entities = {User.class, Gps.class}, version = 5,
+        entities = {User.class, Gps.class}, version = 7,
         autoMigrations = {
-                @AutoMigration(from = 1, to = 5)
-        }
+                @AutoMigration(from = 5, to = 7)
+        },
+        exportSchema = true
 )
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase database;

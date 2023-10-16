@@ -20,7 +20,7 @@ public class Gps {
     //접속자 아이디
     @ColumnInfo(name = "gps_id")
     @NonNull
-    public String GPS_uid;
+    public String gps_uid;
 
     //경도
     @ColumnInfo(name = "gps_lat")
@@ -38,9 +38,9 @@ public class Gps {
     @ColumnInfo(name = "gps_reg_date")
     public String reg_date;
 
-    public Gps(int gps_seq, String GPS_uid, double lat, double lon, double alt, String reg_date) {
+    public Gps(int gps_seq, String gps_uid, double lat, double lon, double alt, String reg_date) {
         this.gps_seq = gps_seq;
-        this.GPS_uid = GPS_uid;
+        this.gps_uid = gps_uid;
         this.lat = lat;
         this.lon = lon;
         this.alt = alt;
@@ -55,12 +55,13 @@ public class Gps {
         this.gps_seq = gps_seq;
     }
 
-    public String getGPS_uid() {
-        return GPS_uid;
+    @NonNull
+    public String getGps_uid() {
+        return gps_uid;
     }
 
-    public void setGPS_uid(String GPS_uid) {
-        this.GPS_uid = GPS_uid;
+    public void setGps_uid(@NonNull String gps_uid) {
+        this.gps_uid = gps_uid;
     }
 
     public double getLat() {
