@@ -38,19 +38,19 @@ import java.util.List;
 
 
 public class LoginActivity extends AppCompatActivity {
-    private AppDatabase db;
-    TextView sign;
-    TextInputEditText id, pw;
-    AppCompatButton loginBtn;
-    LinearLayout outSide;
+    private AppDatabase db; //데이터베이스
+    TextView sign;  //회원가입 버튼
+    TextInputEditText id, pw;   //아이디, 비밀번호 입력필드
+    AppCompatButton loginBtn;   //로그인 버튼
+    LinearLayout outSide;   //입력필드 외 영역
 
-    String uId, uPw;
+    String uId, uPw;    //아이디, 비밀번호 입력값
 
     LocationManager locationMng;
     Location loc_current;
     double lon, lat, alt; //위도, 경도, 고도
-    LocalDateTime today;
-    String formatedNow;
+    LocalDateTime today;    //현재 연월일시
+    String formatedNow; //현재 연월일시 포맷팅
     int gpsSeq; //위치정보 순번
     int totalNum;   //위치정보 데이터개수
 
@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.i("LoginActivity","onResume Called");
 
         /*
-        * 다른영역 터치(포커스해제 키보드 내림)
+        * 입력필드 외 영역 터치(포커스해제 키보드 내림)
         * */
         final InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 

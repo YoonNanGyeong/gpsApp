@@ -2,6 +2,7 @@ package com.ntek.testgpsapp;
 
 import android.content.Context;
 
+import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -11,7 +12,12 @@ import com.ntek.testgpsapp.DAO.UserDAO;
 import com.ntek.testgpsapp.Entity.Gps;
 import com.ntek.testgpsapp.Entity.User;
 
-@Database(entities = {User.class, Gps.class}, version = 5)
+@Database(
+        entities = {User.class, Gps.class}, version = 5,
+        autoMigrations = {
+                @AutoMigration(from = 1, to = 5)
+        }
+)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase database;
     private static String DATABASE_NAME = "appDB";
