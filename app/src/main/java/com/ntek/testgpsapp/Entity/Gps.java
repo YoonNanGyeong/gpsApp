@@ -8,27 +8,34 @@ import androidx.room.PrimaryKey;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@Entity
+@Entity(tableName = "gps")
 public class Gps {
 
     //순번
     @PrimaryKey
     @NonNull
+    @ColumnInfo(name = "gps_seq")
     public int gps_seq;
 
-    //접속 아이디
+    //접속자 아이디
+    @ColumnInfo(name = "gps_id")
+    @NonNull
     public String GPS_uid;
 
     //경도
+    @ColumnInfo(name = "gps_lat")
     public double lat;
 
     //위도
+    @ColumnInfo(name = "gps_lon")
     public double lon;
 
     //고도
+    @ColumnInfo(name = "gps_alt")
     public double alt;
 
     //등록일시
+    @ColumnInfo(name = "gps_reg_date")
     public String reg_date;
 
     public Gps(int gps_seq, String GPS_uid, double lat, double lon, double alt, String reg_date) {

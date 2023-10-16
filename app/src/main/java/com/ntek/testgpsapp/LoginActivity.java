@@ -257,10 +257,19 @@ public class LoginActivity extends AppCompatActivity {
         super.onRestart();
         Log.i("LoginActivity","onRestart Called");
 
-        totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
-        gpsSeq = totalNum + 1;  //위치정보데이터 순번
-        locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,100000,10.0f,gpsLocationListener);
-        locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,100000,10.0f,gpsLocationListener);
+        // 입력한 아이디, 비밀번호
+        uId = id.getText().toString();
+        uPw = pw.getText().toString();
+
+        List<User> findByUserAssign = db.userDao().findByUserAssign(uId, uPw);  // db에서 해당 계정 찾기
+
+        if(findByUserAssign.size() > 0){ // 로그인 계정이 맞으면 업데이트
+            totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
+            gpsSeq = totalNum + 1;  //위치정보데이터 순번
+            locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,100000,10.0f,gpsLocationListener);
+            locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,100000,10.0f,gpsLocationListener);
+        }
+
     }
 
 

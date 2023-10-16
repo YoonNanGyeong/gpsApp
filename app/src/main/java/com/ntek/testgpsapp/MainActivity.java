@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i("MainActivity","onOptionsItemSelected called");
 
         if(item.getItemId() == R.id.logOut_action){
-            logOutAction();
+            logOutAction(); //로그아웃 확인 다이얼로그 생성
             return true;
         }else{
             return super.onOptionsItemSelected(item);

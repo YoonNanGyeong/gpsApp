@@ -5,17 +5,17 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.migration.Migration;
 
 import com.ntek.testgpsapp.DAO.GpsDAO;
 import com.ntek.testgpsapp.DAO.UserDAO;
 import com.ntek.testgpsapp.Entity.Gps;
 import com.ntek.testgpsapp.Entity.User;
 
-@Database(entities = {User.class, Gps.class}, version = 3)
+@Database(entities = {User.class, Gps.class}, version = 5)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase database;
     private static String DATABASE_NAME = "appDB";
+
     public synchronized static AppDatabase getInstance(Context context){
         if(database == null){
             database = Room.databaseBuilder(context.getApplicationContext(),

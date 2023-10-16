@@ -1,6 +1,5 @@
 package com.ntek.testgpsapp;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.ntek.testgpsapp.Entity.Gps;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -51,12 +49,12 @@ public class FirstFragment extends Fragment {
         Log.i("FirstFragment","onStart Called");
     }
 
+    /*
+    * 위치정보데이터 adapter에 추가
+    * */
     private void getData(){
         List<Gps>totalList = db.gpsDao().listOrderByDesc();
 
-        /*
-         * arrayList 데이터 추가
-         * */
         for(int i=0; i < totalList.size(); i++){
             Gps resultGps = totalList.get(i);
             Gps gps = new Gps(resultGps.getGps_seq(),resultGps.getGPS_uid(),resultGps.getLat(),

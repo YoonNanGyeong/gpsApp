@@ -28,18 +28,20 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class SignupActivity extends AppCompatActivity {
-    private AppDatabase db;
-    EditText id, pw, pwChk, email;
-    AppCompatButton joinBtn, pwChkBtn;
-    ScrollView outSide;
-    String uId, uPw, uEmail, uPwChk;
+    private AppDatabase db; //데이터베이스
+    EditText id, pw, pwChk, email;  //입력필드(아이디, 비밀번호, 비밀번호확인, 이메일)
+    AppCompatButton joinBtn, pwChkBtn;  //회원가입버튼, 비밀번호확인버튼
+    ScrollView outSide; // 로그인 전체 레이아웃 뷰
+    String uId, uPw, uEmail, uPwChk;    //입력id, 비밀번호, 이메일, 비밀번호확인
 
+    /* 에러확인 메세지(아이디,비밀번호,비밀번호확인,이메일)
+    * */
     TextView tv_errorMsg_id;
     TextView tv_errorMsg_pw;
-    TextView tv_errorMsg_pw2; //비밀번호 확인
+    TextView tv_errorMsg_pw2;
     TextView tv_errorMsg_email;
 
-    final String HANGUL = ".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*"; //한글패턴
+    final String HANGUL = ".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*"; // 한글패턴
 
 
     @SuppressLint("ClickableViewAccessibility")
