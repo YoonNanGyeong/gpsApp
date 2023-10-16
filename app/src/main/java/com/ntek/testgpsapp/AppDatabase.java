@@ -15,7 +15,7 @@ import com.ntek.testgpsapp.Entity.User;
 @Database(
         entities = {User.class, Gps.class}, version = 7,
         autoMigrations = {
-                @AutoMigration(from = 5, to = 7)
+                @AutoMigration(from = 5, to = 7)    //버전변경 시 데이터 자동 이전
         },
         exportSchema = true
 )

@@ -63,7 +63,11 @@ public class SignupActivity extends AppCompatActivity {
         // 데이터베이스 인스턴스 생성
         db = AppDatabase.getInstance(this);
 
-        // xml객체 뷰 바인딩
+
+        /*
+        *  xml객체 뷰 바인딩
+        * */
+         // 입력필드(아이디, 비밀번호, 이메일, 비밀번호 확인) 및 회원가입버튼, 비밀번호확인버튼
         id = findViewById(R.id.signID);
         pw = findViewById(R.id.signPW);
         email = findViewById(R.id.signEmail);
@@ -280,12 +284,18 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable e) {
+                List<User> findByEmail =  db.userDao().findByEmail(e.toString());
                 if(!Patterns.EMAIL_ADDRESS.matcher(e.toString()).matches()){
                     tv_errorMsg_email.setText("이메일 형식으로 입력해주세요");
                     email.setBackgroundResource(R.drawable.error_input);
                     tv_errorMsg_email.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
 
-                }else{
+                }else if(findByEmail.size() > 0){   //동일 이메일이 존재할 경우
+                    tv_errorMsg_email.setText("이미 존재하는 이메일 입니다.");
+                    email.setBackgroundResource(R.drawable.error_input);
+                    tv_errorMsg_email.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
+                }
+                else{
                     tv_errorMsg_email.setText("");
                     email.setBackgroundResource(R.drawable.success_input);
 

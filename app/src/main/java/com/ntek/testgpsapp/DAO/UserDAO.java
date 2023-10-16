@@ -8,11 +8,10 @@ import com.ntek.testgpsapp.Entity.User;
 
 import java.util.List;
 
+import io.reactivex.Maybe;
+
 @Dao
 public interface UserDAO {
-    // 회원 정보 목록 조회
-    @Query("SELECT * FROM user")
-    List<User> getUserList();
 
     // 동일 아이디 조회
     @Query("SELECT * FROM user WHERE userId = :userId")
