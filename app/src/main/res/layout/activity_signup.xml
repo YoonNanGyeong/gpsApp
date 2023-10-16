@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:textSize="13dp"
-                    android:text="필수입력(최대 12자)"
+                    android:text="영문, 숫자 조합 6 ~ 12자"
                 />
 
                 <TextView
@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:textSize="13dp"
-                    android:text="최소 6자리 이상 16자리 이하 (필수입력)"
+                    android:text="영문, 숫자, 특수문자 조합 6 ~ 16자"
                 />
 
 

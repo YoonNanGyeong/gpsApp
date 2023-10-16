@@ -41,7 +41,8 @@ public class SignupActivity extends AppCompatActivity {
     TextView tv_errorMsg_pw2;
     TextView tv_errorMsg_email;
 
-    final String HANGUL = ".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*"; // 한글패턴
+    final String ALLOW_ID_PATTERN = "^[a-zA-Z0-9]{5,12}+$"; // 영문 숫자 조합 6~12자리
+    final String ALLOW_PW_PATTERN = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{6,16}+$"; // 영문 대소문자 + 숫자 + 특수문자 조합으로 6 ~ 16자리
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -187,6 +188,10 @@ public class SignupActivity extends AppCompatActivity {
                     id.setBackgroundResource(R.drawable.error_input);   //테두리 변경
                     tv_errorMsg_id.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
 
+                }else if(charSequence.equals("")){  //공백 입력
+                    tv_errorMsg_id.setText("공백은 입력할 수 없습니다.");    //경고메세지
+                    id.setBackgroundResource(R.drawable.error_input);   //테두리 변경
+                    tv_errorMsg_id.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
                 }
                 else{
                     tv_errorMsg_id.setText("");    //경고메세지 제거
@@ -208,9 +213,9 @@ public class SignupActivity extends AppCompatActivity {
                     id.setBackgroundResource(R.drawable.error_input);   //테두리 변경
                     tv_errorMsg_id.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
 
-                }else if(Pattern.compile(HANGUL).matcher(editable.toString()).matches()){
-                    //입력값이 한글인 경우
-                    tv_errorMsg_id.setText("영문 및 숫자 조합만 가능합니다.");    //경고메세지
+                }else if(!Pattern.compile(ALLOW_ID_PATTERN).matcher(editable.toString()).matches()){
+                    //입력값이 영문 숫자 조합이 아닌 경우
+                    tv_errorMsg_id.setText("아이디는 영문 숫자 조합 6~12자리만 가능합니다.");    //경고메세지
                     id.setBackgroundResource(R.drawable.error_input);   //테두리 변경
                     tv_errorMsg_id.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
                 }
@@ -244,19 +249,14 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(editable.length() < 6){
-                    tv_errorMsg_pw.setText("비밀번호는 최소 6자리 이상이어야 합니다.");    //경고메세지
-                    pw.setBackgroundResource(R.drawable.error_input);   //테두리 변경
-                    tv_errorMsg_pw.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
-
-                }else if(nullVerify(editable.toString())==false){
+                if(nullVerify(editable.toString())==false){
                     tv_errorMsg_pw.setText("비밀번호는 필수입력입니다.");    //경고메세지
                     pw.setBackgroundResource(R.drawable.error_input);   //테두리 변경
                     tv_errorMsg_pw.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
 
-                }else if(Pattern.compile(HANGUL).matcher(editable.toString()).matches()){
-                    //입력값이 한글인 경우
-                    tv_errorMsg_pw.setText("영문 및 숫자, 특수문자 조합만 가능합니다.");    //경고메세지
+                }else if(!Pattern.compile(ALLOW_PW_PATTERN).matcher(editable.toString()).matches()){
+                    //입력값이 형식에 맞지 않는 경우
+                    tv_errorMsg_pw.setText("비밀번호는 대소문자, 숫자, 특수문자 조합 6~16자리만 가능합니다.");    //경고메세지
                     pw.setBackgroundResource(R.drawable.error_input);   //테두리 변경
                     tv_errorMsg_pw.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error)); //메세지 색상변경
                 }
