@@ -10,9 +10,6 @@ import java.util.List;
 
 @Dao
 public interface GpsDAO {
-    // 좌표 목록 조회
-    @Query("SELECT * FROM gps")
-    List<Gps> getGpsList();
 
     // 좌표 아이디 오름차순 조회
     @Query("SELECT * FROM gps ORDER BY gps_id ASC")
