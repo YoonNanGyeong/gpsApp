@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setNestedScrollingEnabled(true);
 
         gpsInt = new Intent(MainActivity.this, GpsService.class);
-        Intent mainInt = getIntent();
-        String loginId = mainInt.getStringExtra("id");
+        Intent mainInt = getIntent();   //현재 액티비티 인텐트
+        String loginId = mainInt.getStringExtra("id");  //로그인 아이디
         gpsInt.putExtra("id",loginId);
         startForegroundService(gpsInt); //서비스 시작
 
@@ -134,14 +134,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.i("MainActivity","onStop Called");
-        stopService(gpsInt);
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.i("MainActivity","onDestroy Called");
+        stopService(gpsInt);
     }
 
     @Override

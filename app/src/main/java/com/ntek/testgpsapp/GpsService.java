@@ -31,7 +31,7 @@ import java.util.List;
 public class GpsService extends Service {
     private static final String CHANNEL_ID = "gpsService";
     private AppDatabase db; //데이터베이스
-    String uId;    //아이디 입력값
+    String uId;    //로그인 아이디
 
     LocationManager locationMng;
     Location loc_current;
@@ -52,7 +52,11 @@ public class GpsService extends Service {
         db = AppDatabase.getInstance(this);
 
         locationMng = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        loc_current = locationMng.getLastKnownLocation(LocationManager.GPS_PROVIDER);   //현재위치정보
+//        loc_current = locationMng.getLastKnownLocation(LocationManager.GPS_PROVIDER);   //현재위치정보
+
+        //가상에뮬레이터에서 좌표 null 오류나서 수정
+        loc_current = locationMng.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
 
         //위도,경도,고도 초기값
         lon = 0.0;
@@ -100,9 +104,9 @@ public class GpsService extends Service {
             @SuppressLint("MissingPermission")
             @Override
             public void run() {
-                //3초 마다 업데이트
-                locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,3000,0,gpsLocationListener);
-                locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,3000,0,gpsLocationListener);
+                //10초 마다 업데이트
+                locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,0,gpsLocationListener);
+                locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,10000,0,gpsLocationListener);
             }
         });
 
