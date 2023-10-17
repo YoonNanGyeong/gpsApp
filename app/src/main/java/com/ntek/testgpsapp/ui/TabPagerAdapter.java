@@ -1,4 +1,4 @@
-package com.ntek.testgpsapp;
+package com.ntek.testgpsapp.ui;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

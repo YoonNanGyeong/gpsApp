@@ -1,14 +1,12 @@
-package com.ntek.testgpsapp.DAO;
+package com.ntek.testgpsapp.persistance.DAO;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.ntek.testgpsapp.Entity.User;
+import com.ntek.testgpsapp.persistance.Entity.User;
 
 import java.util.List;
-
-import io.reactivex.Maybe;
 
 @Dao
 public interface UserDAO {

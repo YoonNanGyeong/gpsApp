@@ -1,4 +1,4 @@
-package com.ntek.testgpsapp;
+package com.ntek.testgpsapp.persistance;
 
 import android.content.Context;
 
@@ -7,10 +7,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.ntek.testgpsapp.DAO.GpsDAO;
-import com.ntek.testgpsapp.DAO.UserDAO;
-import com.ntek.testgpsapp.Entity.Gps;
-import com.ntek.testgpsapp.Entity.User;
+import com.ntek.testgpsapp.persistance.DAO.GpsDAO;
+import com.ntek.testgpsapp.persistance.DAO.UserDAO;
+import com.ntek.testgpsapp.persistance.Entity.Gps;
+import com.ntek.testgpsapp.persistance.Entity.User;
 
 @Database(
         entities = {User.class, Gps.class}, version = 7,

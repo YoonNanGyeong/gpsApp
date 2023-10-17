@@ -1,4 +1,4 @@
-package com.ntek.testgpsapp.Entity;
+package com.ntek.testgpsapp.persistance.Entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

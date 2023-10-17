@@ -1,4 +1,4 @@
-package com.ntek.testgpsapp;
+package com.ntek.testgpsapp.ui;
 
 import android.os.Bundle;
 
@@ -12,27 +12,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ntek.testgpsapp.Entity.Gps;
+import com.ntek.testgpsapp.R;
+import com.ntek.testgpsapp.persistance.AppDBAdapter;
+import com.ntek.testgpsapp.persistance.AppDatabase;
+import com.ntek.testgpsapp.persistance.Entity.Gps;
 
 import java.util.List;
 
 
-public class SecondFragment extends Fragment {
+public class FirstFragment extends Fragment {
     private AppDatabase db;
-    public RecyclerView secondRecycler;  //리사이클러 뷰 생성
-    public AppDBAdapter secondAdapter;   //어댑터 생성
+    public RecyclerView firstRecycler;  //리사이클러 뷰 생성
+    public AppDBAdapter firstAdapter;   //어댑터 생성
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = AppDatabase.getInstance(getContext());
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.i("SecondFragment","onCreateView Called");
-        View view = inflater.inflate(R.layout.fragment_second, container, false);
-        secondRecycler = (RecyclerView) view.findViewById(R.id.secondRecycler);
-        secondRecycler.setHasFixedSize(false);
+        Log.i("FirstFragment","onCreateView Called");
+
+        View view = inflater.inflate(R.layout.fragment_first, container, false);
+        firstRecycler = (RecyclerView)view.findViewById(R.id.firstRecycler);
+        firstRecycler.setHasFixedSize(true);
 
         init();
         getData();
@@ -43,37 +49,36 @@ public class SecondFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.i("SecondFragment","onStart Called");
+        Log.i("FirstFragment","onStart Called");
     }
 
     /*
-     * 위치정보데이터 adapter에 추가
-     * */
+    * 위치정보데이터 adapter에 추가
+    * */
     private void getData(){
-        List<Gps> totalList = db.gpsDao().listOrderByAsc();
+        List<Gps>totalList = db.gpsDao().listOrderByDesc();
 
         for(int i=0; i < totalList.size(); i++){
             Gps resultGps = totalList.get(i);
             Gps gps = new Gps(resultGps.getGps_seq(),resultGps.getGps_uid(),resultGps.getLat(),
                     resultGps.getLon(),resultGps.getAlt(), resultGps.getReg_date());
-
+            
             // 각 값이 들어간 data를 adapter에 추가
-            secondAdapter.addItem(gps);
+            firstAdapter.addItem(gps);
         }
 
         // adapter 값 업데이트 명시
-        secondAdapter.notifyDataSetChanged();
+        firstAdapter.notifyDataSetChanged();
     }
 
     private void init(){
         /*
          * recyclerView에 데이터 전송
          * */
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        secondRecycler.setLayoutManager(layoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        firstRecycler.setLayoutManager(layoutManager);
 
-        secondAdapter = new AppDBAdapter();
-        secondRecycler.setAdapter(secondAdapter);
+        firstAdapter = new AppDBAdapter();
+        firstRecycler.setAdapter(firstAdapter);
     }
-
 }

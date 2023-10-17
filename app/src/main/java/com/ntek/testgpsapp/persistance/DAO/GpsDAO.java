@@ -1,12 +1,13 @@
-package com.ntek.testgpsapp.DAO;
+package com.ntek.testgpsapp.persistance.DAO;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.ntek.testgpsapp.Entity.Gps;
+import com.ntek.testgpsapp.persistance.Entity.Gps;
 
 import java.util.List;
+
 
 @Dao
 public interface GpsDAO {
@@ -25,7 +26,7 @@ public interface GpsDAO {
 
     // 데이터 갯수 조회
     @Query("SELECT COUNT(*) FROM gps")
-    int gpsDataNumber();
+    Integer gpsDataNumber();
 
     // 순번으로 조회
     @Query("SELECT * FROM gps where gps_seq = :gpsSeq")

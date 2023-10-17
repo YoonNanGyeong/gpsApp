@@ -1,4 +1,4 @@
-package com.ntek.testgpsapp;
+package com.ntek.testgpsapp.ui;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +22,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ntek.testgpsapp.Entity.User;
+import com.ntek.testgpsapp.R;
+import com.ntek.testgpsapp.persistance.AppDatabase;
+import com.ntek.testgpsapp.persistance.Entity.User;
 
 import java.util.List;
 import java.util.regex.Pattern;

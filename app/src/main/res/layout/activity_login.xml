@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:theme="@style/ThemeOverlay.TestGPSApp.FullscreenContainer"
-    tools:context=".LoginActivity">
+    tools:context=".ui.LoginActivity">
 
     <LinearLayout
         android:id="@+id/layout_login_outside"

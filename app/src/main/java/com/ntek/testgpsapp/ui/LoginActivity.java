@@ -1,7 +1,5 @@
-package com.ntek.testgpsapp;
+package com.ntek.testgpsapp.ui;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -11,14 +9,16 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,11 +28,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.ntek.testgpsapp.Entity.Gps;
-import com.ntek.testgpsapp.Entity.User;
+import com.ntek.testgpsapp.GpsService;
+import com.ntek.testgpsapp.R;
+import com.ntek.testgpsapp.persistance.AppDatabase;
+import com.ntek.testgpsapp.persistance.Entity.Gps;
+import com.ntek.testgpsapp.persistance.Entity.User;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -46,13 +48,17 @@ public class LoginActivity extends AppCompatActivity {
 
     String uId, uPw;    //아이디, 비밀번호 입력값
 
-    LocationManager locationMng;
-    Location loc_current;
-    double lon, lat, alt; //위도, 경도, 고도
-    LocalDateTime today;    //현재 연월일시
-    String formatedNow; //현재 연월일시 포맷팅
+    Intent gpsInt;  // gpsService intent
+    GpsService gpsService;  //gpsService 객체
+
+
+//    LocationManager locationMng;
+//    Location loc_current;
+//    double lon, lat, alt; //위도, 경도, 고도
+//    LocalDateTime today;    //현재 연월일시
+//    String formatedNow; //현재 연월일시 포맷팅
     int gpsSeq; //위치정보 순번
-    int totalNum;   //위치정보 데이터개수
+//    int totalNum;   //위치정보 데이터개수
 
     private final int MY_PERMISSIONS_REQUEST_FINE_LOCATION=1001;
 
@@ -87,18 +93,18 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.loginButton);
         outSide = findViewById(R.id.layout_login_outside);
 
-        locationMng = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        loc_current = locationMng.getLastKnownLocation(LocationManager.GPS_PROVIDER);   //현재위치정보
-
-        //위도,경도,고도 초기값
-        lon = 0.0;
-        lat = 0.0;
-        alt = 0.0;
-
-        totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
-        gpsSeq = totalNum + 1;  //위치정보데이터 순번
-        today = LocalDateTime.now();    //현재 시간
-        formatedNow = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));   //시간 포맷
+//        locationMng = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//        loc_current = locationMng.getLastKnownLocation(LocationManager.GPS_PROVIDER);   //현재위치정보
+//
+//        //위도,경도,고도 초기값
+//        lon = 0.0;
+//        lat = 0.0;
+//        alt = 0.0;
+//
+//        totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
+//        gpsSeq = totalNum + 1;  //위치정보데이터 순번
+//        today = LocalDateTime.now();    //현재 시간
+//        formatedNow = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));   //시간 포맷
     }
 
     @Override
@@ -148,17 +154,19 @@ public class LoginActivity extends AppCompatActivity {
                         if(findBySeq.size()>0){
                             Log.i("LoginActivity","중복 순번 발견");
                         }else{
-                            // 위치정보 db에 저장
-                            gpsData(uId);
+                            // 위치정보 서비스 시작
+                            gpsInt = new Intent(LoginActivity.this, GpsService.class);
+
+                            startForegroundService(gpsInt);
                         }
 
                         Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        intent.putExtra("id",uId);
-                        intent.putExtra("pw",uPw);
+                        Intent logInt = new Intent(LoginActivity.this,MainActivity.class);
+                        logInt.putExtra("id",uId);
+                        logInt.putExtra("pw",uPw);
 
-                        startActivity(intent);  //메인화면으로 이동
+                        startActivity(logInt);  //메인화면으로 이동
                 }else{
                     Toast.makeText(LoginActivity.this, "로그인 실패..", Toast.LENGTH_SHORT).show();
                     return;
@@ -168,16 +176,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //위치정보 데이터 저장
-    public void gpsData(String uId){
-        // 위도, 경도, 고도
-        lon = loc_current.getLongitude();
-        lat = loc_current.getLatitude();
-        alt = loc_current.getAltitude();
-
-        // 데이터 객체
-        Gps gps =  new Gps(gpsSeq,uId,lat,lon,alt,formatedNow);
-        db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
-    }
+//    public void gpsData(String uId){
+//        // 위도, 경도, 고도
+//        lon = loc_current.getLongitude();
+//        lat = loc_current.getLatitude();
+//        alt = loc_current.getAltitude();
+//
+//        // 데이터 객체
+//        Gps gps =  new Gps(gpsSeq,uId,lat,lon,alt,formatedNow);
+//        db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
+//    }
 
 
     //위치정보 권한 요청
@@ -190,6 +198,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    //위치정보 권한 요청 응답
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -211,25 +220,25 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
     //위치정보 업데이트
-    final LocationListener gpsLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(@NonNull Location location) {
-            // 위도, 경도, 고도
-            lon = loc_current.getLongitude();
-            lat = loc_current.getLatitude();
-            alt = loc_current.getAltitude();
-
-            List<Gps> findBySeq = db.gpsDao().findByGpsSeq(gpsSeq);
-            if(findBySeq.size()>0){
-                totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
-                gpsSeq = totalNum + 1;  //위치정보데이터 순번
-            }
-
-            // 데이터 객체
-            Gps gps = new Gps(gpsSeq,uId,lat,lon,alt,formatedNow);
-            db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
-        }
-    };
+//    final LocationListener gpsLocationListener = new LocationListener() {
+//        @Override
+//        public void onLocationChanged(@NonNull Location location) {
+//            // 위도, 경도, 고도
+//            lon = loc_current.getLongitude();
+//            lat = loc_current.getLatitude();
+//            alt = loc_current.getAltitude();
+//
+//            List<Gps> findBySeq = db.gpsDao().findByGpsSeq(gpsSeq);
+//            if(findBySeq.size()>0){
+//                totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
+//                gpsSeq = totalNum + 1;  //위치정보데이터 순번
+//            }
+//
+//            // 데이터 객체
+//            Gps gps = new Gps(gpsSeq,uId,lat,lon,alt,formatedNow);
+//            db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
+//        }
+//    };
 
 
     @Override
@@ -242,13 +251,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.i("LoginActivity","onStop Called");
-        locationMng.removeUpdates(gpsLocationListener);
+//        locationMng.removeUpdates(gpsLocationListener);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.i("LoginActivity","onDestroy Called");
+        stopService(gpsInt);    //서비스 종료
     }
 
     @SuppressLint("MissingPermission")
@@ -258,17 +268,17 @@ public class LoginActivity extends AppCompatActivity {
         Log.i("LoginActivity","onRestart Called");
 
         // 입력한 아이디, 비밀번호
-        uId = id.getText().toString();
-        uPw = pw.getText().toString();
+//        uId = id.getText().toString();
+//        uPw = pw.getText().toString();
 
-        List<User> findByUserAssign = db.userDao().findByUserAssign(uId, uPw);  // db에서 해당 계정 찾기
-
-        if(findByUserAssign.size() > 0){ // 로그인 계정이 맞으면 업데이트
-            totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
-            gpsSeq = totalNum + 1;  //위치정보데이터 순번
-            locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,100000,10.0f,gpsLocationListener);
-            locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,100000,10.0f,gpsLocationListener);
-        }
+//        List<User> findByUserAssign = db.userDao().findByUserAssign(uId, uPw);  // db에서 해당 계정 찾기
+//
+//        if(findByUserAssign.size() > 0){ // 로그인 계정이 맞으면 업데이트
+//            totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
+//            gpsSeq = totalNum + 1;  //위치정보데이터 순번
+//            locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,100000,10.0f,gpsLocationListener);
+//            locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,100000,10.0f,gpsLocationListener);
+//        }
 
     }
 

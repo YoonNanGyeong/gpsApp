@@ -1,4 +1,4 @@
-package com.ntek.testgpsapp;
+package com.ntek.testgpsapp.persistance;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ntek.testgpsapp.Entity.Gps;
+import com.ntek.testgpsapp.R;
+import com.ntek.testgpsapp.persistance.Entity.Gps;
 
 import java.util.ArrayList;
 

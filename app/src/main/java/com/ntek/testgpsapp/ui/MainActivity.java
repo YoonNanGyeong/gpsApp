@@ -1,6 +1,5 @@
-package com.ntek.testgpsapp;
+package com.ntek.testgpsapp.ui;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -13,11 +12,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.ntek.testgpsapp.R;
+import com.ntek.testgpsapp.persistance.AppDatabase;
 
 public class MainActivity extends AppCompatActivity {
     private AppDatabase db;
