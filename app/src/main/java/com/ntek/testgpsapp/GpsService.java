@@ -30,7 +30,7 @@ import java.util.List;
 public class GpsService extends Service {
     private static final String CHANNEL_ID = "gpsService";
     private AppDatabase db; //데이터베이스
-    String uId,uPw;    //아이디, 비밀번호 입력값
+    String uId;    //아이디 입력값
 
     LocationManager locationMng;
     Location loc_current;
@@ -40,6 +40,7 @@ public class GpsService extends Service {
     int gpsSeq; //위치정보 순번
     int totalNum;   //위치정보 데이터개수
 
+//    private final IBinder binder = new GpsBinder();
 
     @SuppressLint("MissingPermission")
     @Override
@@ -69,10 +70,12 @@ public class GpsService extends Service {
         Log.e("GpsService","onStartCommand Called");
         if(intent == null){
             return START_STICKY;
+        }else if(intent != null){
+            uId = intent.getStringExtra("id");
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel =
-                    new NotificationChannel(CHANNEL_ID, "알림 설정 모드", NotificationManager.IMPORTANCE_DEFAULT);
+                    new NotificationChannel(CHANNEL_ID, "testGpsApp 서비스 알림 설정", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager manager = getSystemService(NotificationManager.class);
             assert manager != null;
             manager.createNotificationChannel(serviceChannel);
@@ -141,11 +144,17 @@ public class GpsService extends Service {
         }
     };
 
+//    public class GpsBinder extends Binder {
+//        public GpsService getService(){
+//            return GpsService.this;
+//        }
+//    }
 
     @Override
     public IBinder onBind(Intent intent) {
         Log.e("GpsService","onBind Called");
         throw new UnsupportedOperationException("Not yet implemented");
+//        return binder;
     }
 
     @Override
@@ -154,4 +163,6 @@ public class GpsService extends Service {
         Log.e("GpsService","onDestroy Called");
         stopSelf();
     }
+
+
 }

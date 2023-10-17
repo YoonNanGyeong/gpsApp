@@ -50,6 +50,19 @@ public class LoginActivity extends AppCompatActivity {
 
     Intent gpsInt;  // gpsService intent
     GpsService gpsService;  //gpsService 객체
+//    ServiceConnection conn = new ServiceConnection() {  //서비스 연결 여부
+//        @Override
+//        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+//            GpsService.GpsBinder gb = (GpsService.GpsBinder)iBinder;
+//            gpsService = gb.getService();
+//            isService = true;
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName componentName) {
+//            isService = false;
+//        }
+//    };
 
 
 //    LocationManager locationMng;
@@ -156,8 +169,9 @@ public class LoginActivity extends AppCompatActivity {
                         }else{
                             // 위치정보 서비스 시작
                             gpsInt = new Intent(LoginActivity.this, GpsService.class);
-
                             startForegroundService(gpsInt);
+                            gpsInt.putExtra("id",uId);
+                            gpsService.onBind(gpsInt);
                         }
 
                         Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
