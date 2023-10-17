@@ -169,9 +169,8 @@ public class LoginActivity extends AppCompatActivity {
                         }else{
                             // 위치정보 서비스 시작
                             gpsInt = new Intent(LoginActivity.this, GpsService.class);
-                            startForegroundService(gpsInt);
                             gpsInt.putExtra("id",uId);
-                            gpsService.onBind(gpsInt);
+                            startForegroundService(gpsInt);
                         }
 
                         Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
@@ -272,7 +271,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.i("LoginActivity","onDestroy Called");
-        stopService(gpsInt);    //서비스 종료
     }
 
     @SuppressLint("MissingPermission")
