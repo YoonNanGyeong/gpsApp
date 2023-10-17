@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -42,7 +41,6 @@ public class GpsService extends Service {
     int gpsSeq; //위치정보 순번
     int totalNum;   //위치정보 데이터개수
 
-//    private final IBinder binder = new GpsBinder();
 
     @SuppressLint("MissingPermission")
     @Override
@@ -102,7 +100,7 @@ public class GpsService extends Service {
             @SuppressLint("MissingPermission")
             @Override
             public void run() {
-                //10초 마다 업데이트
+                //3초 마다 업데이트
                 locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,3000,0,gpsLocationListener);
                 locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,3000,0,gpsLocationListener);
             }
@@ -112,19 +110,6 @@ public class GpsService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-
-
-    //위치정보 데이터 저장
-//    public void gpsData(String uId){
-//        // 위도, 경도, 고도
-//        lon = loc_current.getLongitude();
-//        lat = loc_current.getLatitude();
-//        alt = loc_current.getAltitude();
-//
-//        // 데이터 객체
-//        Gps gps =  new Gps(gpsSeq,uId,lat,lon,alt,formatedNow);
-//        db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
-//    }
 
     //위치정보 업데이트
     final LocationListener gpsLocationListener = new LocationListener() {
@@ -149,24 +134,17 @@ public class GpsService extends Service {
         }
     };
 
-//    public class GpsBinder extends Binder {
-//        public GpsService getService(){
-//            return GpsService.this;
-//        }
-//    }
-
     @Override
     public IBinder onBind(Intent intent) {
         Log.d("GpsService","onBind Called");
         throw new UnsupportedOperationException("Not yet implemented");
-//        return binder;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.d("GpsService","onDestroy Called");
-        stopSelf();
+        locationMng.removeUpdates(gpsLocationListener);
     }
 
 

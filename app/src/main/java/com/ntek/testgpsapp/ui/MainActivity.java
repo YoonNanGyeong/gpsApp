@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.ntek.testgpsapp.GpsService;
 import com.ntek.testgpsapp.R;
 import com.ntek.testgpsapp.persistance.AppDatabase;
 
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     ViewPager2 viewPager;
 
     String[] str;
+
+    Intent gpsInt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.pager);
         viewPager.setNestedScrollingEnabled(true);
+
+        gpsInt = new Intent(MainActivity.this, GpsService.class);
+        Intent mainInt = getIntent();
+        String loginId = mainInt.getStringExtra("id");
+        gpsInt.putExtra("id",loginId);
+        startForegroundService(gpsInt); //서비스 시작
 
     }
 
@@ -125,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.i("MainActivity","onStop Called");
+        stopService(gpsInt);
+
     }
 
     @Override
