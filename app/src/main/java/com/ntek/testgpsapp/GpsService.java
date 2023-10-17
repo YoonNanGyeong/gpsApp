@@ -77,7 +77,7 @@ public class GpsService extends Service {
             return START_STICKY;
         }else{
             uId = intent.getStringExtra("id");
-            Log.e("GpsService","intent: "+uId);
+            Log.d("GpsService","getExtra: "+uId);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel =
@@ -135,7 +135,7 @@ public class GpsService extends Service {
             Gps gps = new Gps(gpsSeq,uId,lat,lon,alt,formatedNow);
             db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
 
-            Log.e("GpsService","위도: "+lon+" 경도: "+lat+" 고도: "+alt);
+            Log.d("GpsService","위도: "+lon+" 경도: "+lat+" 고도: "+alt);
         }
     };
 
