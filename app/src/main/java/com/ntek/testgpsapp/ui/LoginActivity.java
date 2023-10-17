@@ -119,21 +119,14 @@ public class LoginActivity extends AppCompatActivity {
                 List<User> findByUserAssign = db.userDao().findByUserAssign(uId, uPw);  // db에서 해당 계정 찾기
 
                 if(findByUserAssign.size() > 0){ //계정이 있으면 로그인 성공
-                        List<Gps> findBySeq = db.gpsDao().findByGpsSeq(gpsSeq);
-                        if(findBySeq.size()>0){
-                            Log.i("LoginActivity","중복 순번 발견");
-                        }else{
-                            // 위치정보 서비스 시작
-                            gpsInt = new Intent(LoginActivity.this, GpsService.class);
-                            gpsInt.putExtra("id",uId);
-                            startForegroundService(gpsInt);
-                        }
-
+                        // 위치정보 서비스 시작
+//                        gpsInt = new Intent(LoginActivity.this, GpsService.class);
+//                        gpsInt.putExtra("id",uId);
+//                        startForegroundService(gpsInt);
                         Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
 
                         Intent logInt = new Intent(LoginActivity.this,MainActivity.class);
                         logInt.putExtra("id",uId);
-                        logInt.putExtra("pw",uPw);
 
                         startActivity(logInt);  //메인화면으로 이동
                 }else{

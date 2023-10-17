@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         Intent mainInt = getIntent();   //현재 액티비티 인텐트
         String loginId = mainInt.getStringExtra("id");  //로그인 아이디
         gpsInt.putExtra("id",loginId);
-        startForegroundService(gpsInt); //서비스 시작
+        startForegroundService(gpsInt); //위치정보 실시간 저장 서비스 시작
 
     }
 
