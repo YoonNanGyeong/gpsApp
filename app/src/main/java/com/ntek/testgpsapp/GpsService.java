@@ -46,7 +46,7 @@ public class GpsService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("GpsService","onCreate Called");
+        Log.i("GpsService","onCreate Called");
 
         // 데이터베이스 인스턴스 생성
         db = AppDatabase.getInstance(this);
@@ -72,7 +72,7 @@ public class GpsService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("GpsService","onStartCommand Called");
+        Log.i("GpsService","onStartCommand Called");
         if(intent == null){
             return START_STICKY;
         }else{
@@ -141,14 +141,14 @@ public class GpsService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.d("GpsService","onBind Called");
+        Log.i("GpsService","onBind Called");
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("GpsService","onDestroy Called");
+        Log.i("GpsService","onDestroy Called");
         locationMng.removeUpdates(gpsLocationListener);
     }
 

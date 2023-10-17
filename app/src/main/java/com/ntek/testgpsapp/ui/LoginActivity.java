@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(findByUserAssign.size() > 0){ //계정이 있으면 로그인 성공
                         // 위치정보 서비스 시작
 //                        gpsInt = new Intent(LoginActivity.this, GpsService.class);
-//                        gpsInt.putExtra("id",uId);
+//                        gpsInt.putExtra("id",uId);ㅅ
 //                        startForegroundService(gpsInt);
                         Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
 
