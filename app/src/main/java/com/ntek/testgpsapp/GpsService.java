@@ -52,9 +52,10 @@ public class GpsService extends Service {
         db = AppDatabase.getInstance(this);
 
         locationMng = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        loc_current = locationMng.getLastKnownLocation(LocationManager.GPS_PROVIDER);   //현재위치정보
+        
+//        loc_current = locationMng.getLastKnownLocation(LocationManager.GPS_PROVIDER); //현재위치정보
 
-        //가상에뮬레이터에서 좌표 null 오류나서 수정
+        //현재위치정보: 가상에뮬레이터에서 좌표 null 오류나서 수정
         loc_current = locationMng.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
 
