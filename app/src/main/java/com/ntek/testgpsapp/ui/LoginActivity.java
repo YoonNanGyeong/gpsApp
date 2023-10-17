@@ -126,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
 
                         Intent logInt = new Intent(LoginActivity.this,MainActivity.class);
-                        logInt.putExtra("id",uId);
+                        logInt.putExtra("id",uId);  //메인으로 로그인한 아이디값 전달
 
                         startActivity(logInt);  //메인화면으로 이동
                 }else{
