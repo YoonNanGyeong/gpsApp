@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private final int MY_PERMISSIONS_REQUEST_FINE_LOCATION=1001;
+    private final int MY_PERMISSIONS_REQUEST_POST_NOTIFICATIONS=1002;
 
 
 
@@ -80,7 +81,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.i("LoginActivity","onStart Called");
-        accessGps(this);    //위치정보 권한 요청 메소드
+        accessGps(this);    //위치정보 권한요청 메소드
+        accessAlarm(this);  //알람 권한요청 메소드
     }
 
     @Override
@@ -119,10 +121,6 @@ public class LoginActivity extends AppCompatActivity {
                 List<User> findByUserAssign = db.userDao().findByUserAssign(uId, uPw);  // db에서 해당 계정 찾기
 
                 if(findByUserAssign.size() > 0){ //계정이 있으면 로그인 성공
-                        // 위치정보 서비스 시작
-//                        gpsInt = new Intent(LoginActivity.this, GpsService.class);
-//                        gpsInt.putExtra("id",uId);ㅅ
-//                        startForegroundService(gpsInt);
                         Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
 
                         Intent logInt = new Intent(LoginActivity.this,MainActivity.class);
@@ -148,6 +146,16 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    //알람 권한 요청
+    public void accessAlarm(Activity activity){
+        int permissionCheck = ContextCompat.checkSelfPermission(this,android.Manifest.permission.POST_NOTIFICATIONS);
+        if(permissionCheck!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                    MY_PERMISSIONS_REQUEST_POST_NOTIFICATIONS);
+        }
+    }
+
     //위치정보 권한 요청 응답
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -162,6 +170,17 @@ public class LoginActivity extends AppCompatActivity {
 
                 } else {
                     Toast.makeText(this, "위치정보 제공을 승인 받지않았습니다.", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+            case MY_PERMISSIONS_REQUEST_POST_NOTIFICATIONS: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(this, "알람요청을 허용하였습니다.", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(this, "알람요청을 허용하지않습니다.", Toast.LENGTH_LONG).show();
                 }
                 return;
             }

@@ -1,6 +1,8 @@
 package com.ntek.testgpsapp;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -8,6 +10,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -18,7 +21,9 @@ import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.ntek.testgpsapp.persistance.AppDatabase;
 import com.ntek.testgpsapp.persistance.Entity.Gps;
@@ -78,7 +83,7 @@ public class GpsService extends Service {
         }else{
             uId = intent.getStringExtra("id");
             Log.d("GpsService","getExtra: "+uId);
-            notification();
+            notification(); // 알림 상태바 생성 메소드
         }
 
 
@@ -108,6 +113,7 @@ public class GpsService extends Service {
             NotificationManager manager = getSystemService(NotificationManager.class);
             assert manager != null; //null 체크
             manager.createNotificationChannel(serviceChannel);
+            Log.e("GpsService","createNotificationChannel");
         }
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -120,7 +126,8 @@ public class GpsService extends Service {
                 .build();
 
 
-        startForeground(1, notification);
+        startForeground(888, notification);
+        Log.e("GpsService","startForeground");
     }
 
 
@@ -157,7 +164,7 @@ public class GpsService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.i("GpsService","onDestroy Called");
-        locationMng.removeUpdates(gpsLocationListener);
+        locationMng.removeUpdates(gpsLocationListener); //위치정보 업데이트 중지
     }
 
 
