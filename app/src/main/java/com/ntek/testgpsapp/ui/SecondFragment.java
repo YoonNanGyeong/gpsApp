@@ -37,9 +37,6 @@ public class SecondFragment extends Fragment {
         secondRecycler = (RecyclerView) view.findViewById(R.id.secondRecycler);
         secondRecycler.setHasFixedSize(false);
 
-        init();
-        getData();
-
         return view;
     }
 
@@ -47,6 +44,8 @@ public class SecondFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.i("SecondFragment","onStart Called");
+        init();
+        getData();
     }
 
     /*

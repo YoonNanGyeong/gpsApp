@@ -107,13 +107,13 @@ public class GpsService extends Service {
     private void notification(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel =
-                    new NotificationChannel(CHANNEL_ID, "testGpsApp 서비스 알림 설정", NotificationManager.IMPORTANCE_DEFAULT);
+                    new NotificationChannel(CHANNEL_ID, "testGpsApp 서비스 알림 설정", NotificationManager.IMPORTANCE_LOW);    //벨소리, 진동 x
             serviceChannel.setDescription("testGpsApp 위치정보저장 서비스");
 
             NotificationManager manager = getSystemService(NotificationManager.class);
             assert manager != null; //null 체크
             manager.createNotificationChannel(serviceChannel);
-            Log.e("GpsService","createNotificationChannel");
+//            Log.e("GpsService","createNotificationChannel");
         }
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -127,7 +127,7 @@ public class GpsService extends Service {
 
 
         startForeground(1, notification);
-        Log.e("GpsService","startForeground");
+//        Log.e("GpsService","startForeground");
     }
 
 

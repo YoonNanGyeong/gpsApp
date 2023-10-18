@@ -40,8 +40,6 @@ public class FirstFragment extends Fragment {
         firstRecycler = (RecyclerView)view.findViewById(R.id.firstRecycler);
         firstRecycler.setHasFixedSize(true);
 
-        init();
-        getData();
 
         return view;
     }
@@ -50,6 +48,9 @@ public class FirstFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.i("FirstFragment","onStart Called");
+
+        init();
+        getData();
     }
 
     /*

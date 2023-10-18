@@ -1,6 +1,7 @@
 package com.ntek.testgpsapp.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.AlertDialog;
@@ -20,7 +21,7 @@ import com.ntek.testgpsapp.GpsService;
 import com.ntek.testgpsapp.R;
 import com.ntek.testgpsapp.persistance.AppDatabase;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     private AppDatabase db;
     TabLayout tabLayout;
     ViewPager2 viewPager;
@@ -122,6 +123,8 @@ public class MainActivity extends AppCompatActivity {
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(str[position])
         ).attach();
+
+
     }
 
     @Override

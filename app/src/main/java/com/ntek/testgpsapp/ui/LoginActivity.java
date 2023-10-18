@@ -20,10 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.ntek.testgpsapp.GpsService;
 import com.ntek.testgpsapp.R;
 import com.ntek.testgpsapp.persistance.AppDatabase;
-import com.ntek.testgpsapp.persistance.Entity.Gps;
 import com.ntek.testgpsapp.persistance.Entity.User;
 
 import java.util.List;
@@ -37,9 +35,6 @@ public class LoginActivity extends AppCompatActivity {
     LinearLayout outSide;   //입력필드 외 영역
 
     String uId, uPw;    //아이디, 비밀번호 입력값
-
-    Intent gpsInt;  // gpsService intent
-    int gpsSeq; //위치정보 순번
 
 
     private final int MY_PERMISSIONS_REQUEST_FINE_LOCATION=1001;
