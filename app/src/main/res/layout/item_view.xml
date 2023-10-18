@@ -78,6 +78,13 @@
                 android:textSize="13dp"
                 tools:ignore="TextSizeCheck" />
         </LinearLayout>
+        <TextView
+            android:id="@+id/listItem_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2023-10-18 17:35:00"
+            android:textSize="13dp"
+            />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

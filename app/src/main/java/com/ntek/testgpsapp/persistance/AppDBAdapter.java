@@ -48,6 +48,7 @@ public class AppDBAdapter extends RecyclerView.Adapter<AppDBAdapter.ViewHolder> 
         private TextView listItem_lon;
         private TextView listItem_lat;
         private TextView listItem_alt;
+        private TextView listItem_date;
 
         public ViewHolder(@NonNull View view) {
             super(view);
@@ -55,6 +56,7 @@ public class AppDBAdapter extends RecyclerView.Adapter<AppDBAdapter.ViewHolder> 
             listItem_lon = (TextView)view.findViewById(R.id.listItem_lon_text);
             listItem_lat = (TextView)view.findViewById(R.id.listItem_lat_text);
             listItem_alt = (TextView)view.findViewById(R.id.listItem_alt_text);
+            listItem_date = (TextView)view.findViewById(R.id.listItem_date);
         }
         void onBind(Gps gpsData){
             String str_lon = Double.toString(gpsData.getLon());
@@ -65,6 +67,7 @@ public class AppDBAdapter extends RecyclerView.Adapter<AppDBAdapter.ViewHolder> 
             listItem_lon.setText(str_lon);
             listItem_lat.setText(str_lat);
             listItem_alt.setText(str_alt);
+            listItem_date.setText(gpsData.getReg_date());
         }
     }
 }
