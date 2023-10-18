@@ -1,8 +1,6 @@
 package com.ntek.testgpsapp;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,7 +8,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -21,9 +18,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 
 import com.ntek.testgpsapp.persistance.AppDatabase;
 import com.ntek.testgpsapp.persistance.Entity.Gps;
@@ -45,7 +40,7 @@ public class GpsService extends Service {
     String formatedNow; //현재 연월일시 포맷팅
     int gpsSeq; //위치정보 순번
     int totalNum;   //위치정보 데이터개수
-    int gps_seconds; //위치정보 업데이트 시간
+    long gps_seconds; //위치정보 업데이트 시간
 
     @SuppressLint("MissingPermission")
     @Override
@@ -80,7 +75,8 @@ public class GpsService extends Service {
             return START_STICKY;
         }else{
             uId = intent.getStringExtra("id");
-            gps_seconds = Integer.parseInt(intent.getStringExtra("gps_seconds"));
+            gps_seconds = intent.getLongExtra("gpsSeconds",10000);
+            Log.d("GpsService","gps_seconds: "+gps_seconds);
             notification(); // 알림 상태바 생성 메소드
         }
 
