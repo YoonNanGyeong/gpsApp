@@ -78,26 +78,9 @@ public class GpsService extends Service {
         }else{
             uId = intent.getStringExtra("id");
             Log.d("GpsService","getExtra: "+uId);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel serviceChannel =
-                    new NotificationChannel(CHANNEL_ID, "testGpsApp 서비스 알림 설정", NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            assert manager != null;
-            manager.createNotificationChannel(serviceChannel);
+            notification();
         }
 
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("testGpsApp service 알림")
-                .setContentText("foreground service가 실행중 입니다.")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentIntent(pendingIntent)
-                .build();
-
-
-        startForeground(1, notification);
 
         Handler mHandler = new Handler(Looper.getMainLooper());
 
@@ -113,6 +96,31 @@ public class GpsService extends Service {
 
 
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    //알림 상태바 생성
+    private void notification(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel serviceChannel =
+                    new NotificationChannel(CHANNEL_ID, "testGpsApp 서비스 알림 설정", NotificationManager.IMPORTANCE_DEFAULT);
+            serviceChannel.setDescription("testGpsApp 위치정보저장 서비스");
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            assert manager != null; //null 체크
+            manager.createNotificationChannel(serviceChannel);
+        }
+
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("testGpsApp service 알림")
+                .setContentText("testGpsApp 서비스가 실행 중 입니다.")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pendingIntent)
+                .build();
+
+
+        startForeground(1, notification);
     }
 
 
