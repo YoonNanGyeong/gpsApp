@@ -88,11 +88,10 @@ public class GpsService extends Service {
             @Override
             public void run() {
                 //10초 마다 업데이트
-                locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,gps_seconds,0,gpsLocationListener);
+//                locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,gps_seconds,0,gpsLocationListener);
                 locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,gps_seconds,0,gpsLocationListener);
             }
         });
-
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -107,7 +106,6 @@ public class GpsService extends Service {
             NotificationManager manager = getSystemService(NotificationManager.class);
             assert manager != null; //null 체크
             manager.createNotificationChannel(serviceChannel);
-//            Log.e("GpsService","createNotificationChannel");
         }
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -119,9 +117,7 @@ public class GpsService extends Service {
                 .setContentIntent(pendingIntent)
                 .build();
 
-
         startForeground(1, notification);
-//        Log.e("GpsService","startForeground");
     }
 
 

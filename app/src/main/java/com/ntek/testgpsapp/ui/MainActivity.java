@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity{
     String[] str;
 
     Intent gpsInt;
-    long gps_seconds = 10000;    //위치정보 업데이트 시간
+    long gps_seconds;    //위치정보 업데이트 시간
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity{
         Intent mainInt = getIntent();   //현재 액티비티 인텐트
         String loginId = mainInt.getStringExtra("id");  //로그인 아이디
         gpsInt.putExtra("id",loginId);
-        gpsInt.putExtra("gpsSeconds",gps_seconds); //위치정보 업데이트 시간
-        startForegroundService(gpsInt); //위치정보 실시간 저장 서비스 시작
+//        gpsInt.putExtra("gpsSeconds",gps_seconds); //위치정보 업데이트 시간
+//        startForegroundService(gpsInt); //위치정보 실시간 저장 서비스 시작
 
     }
 
@@ -78,16 +78,19 @@ public class MainActivity extends AppCompatActivity{
             logOutAction(); //로그아웃 확인 다이얼로그 생성
             return true;
         }else if(item.getItemId() == R.id.action_10seconds){
+            stopService(gpsInt);
             gps_seconds = 10000;
             gpsInt.putExtra("gps_seconds",gps_seconds);
             startForegroundService(gpsInt);
             return true;
         }else if(item.getItemId() == R.id.action_30seconds){
+            stopService(gpsInt);
             gps_seconds = 30000;
             gpsInt.putExtra("gps_seconds",gps_seconds);
             startForegroundService(gpsInt);
             return true;
         }else if(item.getItemId() == R.id.action_60seconds){
+            stopService(gpsInt);
             gps_seconds = 60000;
             gpsInt.putExtra("gps_seconds",gps_seconds);
             startForegroundService(gpsInt);
