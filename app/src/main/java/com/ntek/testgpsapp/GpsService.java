@@ -45,7 +45,7 @@ public class GpsService extends Service {
     String formatedNow; //현재 연월일시 포맷팅
     int gpsSeq; //위치정보 순번
     int totalNum;   //위치정보 데이터개수
-
+    int gps_seconds; //위치정보 업데이트 시간
 
     @SuppressLint("MissingPermission")
     @Override
@@ -57,10 +57,8 @@ public class GpsService extends Service {
         db = AppDatabase.getInstance(this);
 
         locationMng = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        
-//        loc_current = locationMng.getLastKnownLocation(LocationManager.GPS_PROVIDER); //현재위치정보
 
-        //현재위치정보: 가상에뮬레이터에서 좌표 null 오류나서 수정
+        //현재위치정보
         loc_current = locationMng.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
 
@@ -82,7 +80,7 @@ public class GpsService extends Service {
             return START_STICKY;
         }else{
             uId = intent.getStringExtra("id");
-            Log.d("GpsService","getExtra: "+uId);
+            gps_seconds = Integer.parseInt(intent.getStringExtra("gps_seconds"));
             notification(); // 알림 상태바 생성 메소드
         }
 
@@ -94,8 +92,8 @@ public class GpsService extends Service {
             @Override
             public void run() {
                 //10초 마다 업데이트
-                locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,0,gpsLocationListener);
-                locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,10000,0,gpsLocationListener);
+                locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,gps_seconds,0,gpsLocationListener);
+                locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,gps_seconds,0,gpsLocationListener);
             }
         });
 

@@ -5,6 +5,11 @@
     tools:context="android.example.appbar.MainActivity"
 >
 <item
+    android:id="@+id/action_logout"
+    android:title="로그아웃"
+    app:showAsAction="always"
+    />
+<item
     android:id="@+id/action_10seconds"
     android:orderInCategory="10"
     android:title="10초"

@@ -18,17 +18,7 @@
 
     </style>
 
-    <style name="Theme.TestGPSApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primary</item>
-
-        <item name="colorPrimaryVariant">@color/primary</item>
-        <item name="colorOnPrimary">@color/white</item>
-
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/surface_container</item>
-        <item name="colorSecondaryVariant">@color/surface_container</item>
-        <item name="colorOnSecondary">@color/black</item>
+    <style name="Theme.TestGPSApp" parent="Base.Theme.TestGPSApp">
     </style>
 
     <style name="Theme.TestGPSApp.Fullscreen" parent="Theme.TestGPSApp">

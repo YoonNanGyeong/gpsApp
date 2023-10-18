@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity{
     String[] str;
 
     Intent gpsInt;
+    int gps_seconds;    //위치정보 업데이트 시간
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         str = new String[] { "아이디 내림차순", "아이디 오름차순"};
+
 
         // appbar 타이틀 및 배경색 변경
         getSupportActionBar().setTitle("위치정보 목록");
@@ -61,7 +64,7 @@ public class MainActivity extends AppCompatActivity{
     //appbar 메뉴 옵션 추가(모양 변경)
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.option_menu, menu);
         return true;
     }
 
@@ -70,10 +73,26 @@ public class MainActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item){
         Log.i("MainActivity","onOptionsItemSelected called");
 
-        if(item.getItemId() == R.id.logOut_action){
+        if(item.getItemId() == R.id.action_logout){
             logOutAction(); //로그아웃 확인 다이얼로그 생성
             return true;
-        }else{
+        }else if(item.getItemId() == R.id.action_10seconds){
+            gps_seconds = 10000;
+            gpsInt.putExtra("gps_seconds",gps_seconds);
+            startForegroundService(gpsInt);
+            return true;
+        }else if(item.getItemId() == R.id.action_30seconds){
+            gps_seconds = 30000;
+            gpsInt.putExtra("gps_seconds",gps_seconds);
+            startForegroundService(gpsInt);
+            return true;
+        }else if(item.getItemId() == R.id.action_60seconds){
+            gps_seconds = 60000;
+            gpsInt.putExtra("gps_seconds",gps_seconds);
+            startForegroundService(gpsInt);
+            return true;
+        }
+        else{
             return super.onOptionsItemSelected(item);
         }
     }
