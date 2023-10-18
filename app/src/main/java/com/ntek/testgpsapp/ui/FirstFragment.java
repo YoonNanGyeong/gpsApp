@@ -23,7 +23,7 @@ import java.util.List;
 public class FirstFragment extends Fragment {
     private AppDatabase db;
     public RecyclerView firstRecycler;  //리사이클러 뷰 생성
-    public AppDBAdapter firstAdapter;   //어댑터 생성
+    public AppDBAdapter firstAdapter;   //db어댑터 생성
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
