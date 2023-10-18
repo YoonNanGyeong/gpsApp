@@ -87,7 +87,7 @@ public class GpsService extends Service {
             @SuppressLint("MissingPermission")
             @Override
             public void run() {
-                //10초 마다 업데이트
+                //위치정보 업데이트
 //                locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,gps_seconds,0,gpsLocationListener);
                 locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,gps_seconds,0,gpsLocationListener);
             }
