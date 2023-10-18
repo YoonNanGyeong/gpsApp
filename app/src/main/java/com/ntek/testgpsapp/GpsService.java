@@ -119,14 +119,14 @@ public class GpsService extends Service {
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("testGpsApp service 알림")
-                .setContentText("testGpsApp 서비스가 실행 중 입니다.")
+                .setContentTitle("위치정보 저장 알림")
+                .setContentText("현재 위치정보가 저장되고 있습니다.")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pendingIntent)
                 .build();
 
 
-        startForeground(888, notification);
+        startForeground(1, notification);
         Log.e("GpsService","startForeground");
     }
 
