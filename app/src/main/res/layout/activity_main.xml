@@ -31,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
+        android:layout_gravity="bottom|end"
         app:srcCompat="@android:drawable/ic_dialog_map"
         tools:layout_editor_absoluteX="310dp"
         tools:layout_editor_absoluteY="600dp" />
