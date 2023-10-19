@@ -27,10 +27,4 @@
         android:title="60초"
         app:showAsAction="never"
     />
-    <item
-        android:id="@+id/action_googleMap"
-        android:orderInCategory="40"
-        android:title="구글맵"
-        app:showAsAction="never"
-    />
 </menu>

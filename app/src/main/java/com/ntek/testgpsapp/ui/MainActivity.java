@@ -20,6 +20,8 @@ import com.ntek.testgpsapp.GpsService;
 import com.ntek.testgpsapp.R;
 import com.ntek.testgpsapp.persistance.AppDatabase;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity{
     private AppDatabase db;
     TabLayout tabLayout;
@@ -39,10 +41,9 @@ public class MainActivity extends AppCompatActivity{
         // 탭 타이틀
         str = new String[] { "아이디 내림차순", "아이디 오름차순"};
 
-
         // appbar 타이틀 및 배경색 변경
-        getSupportActionBar().setTitle("위치정보 목록");
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F7F2FA")));
+        getSupportActionBar().show();
+//        getSupportActionBar().setBackgroundDrawable(R.drawable);
 
         // 데이터베이스 인스턴스 생성
         db = AppDatabase.getInstance(this);

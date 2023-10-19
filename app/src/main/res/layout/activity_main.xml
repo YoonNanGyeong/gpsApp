@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!-- 레이아웃이 중첩되지 않도록 함(상대적 배치) -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,6 +25,15 @@
         android:layout_height="match_parent"
         android:layout_marginTop="48dp"
     />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/map_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        app:srcCompat="@android:drawable/ic_dialog_map"
+        tools:layout_editor_absoluteX="310dp"
+        tools:layout_editor_absoluteY="600dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

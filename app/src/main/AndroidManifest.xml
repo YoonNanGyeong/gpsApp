@@ -2,21 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- 알림 권한(API 33 부터 도입) -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <!-- 포그라운드 서비스 권한 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <!--  기지국 위치 및 와이파이 접속 장소 이용하여 대략적인 위치정보 접근  -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- 기기의 정확한 위치정보 접근 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!--  런타임 시 백그라운드 위치 정보 액세스 권한 요청  -->
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-
-
-    <!--  구글맵 API KEY  -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- 포그라운드 서비스 권한 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 기지국 위치 및 와이파이 접속 장소 이용하여 대략적인 위치정보 접근 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 기기의 정확한 위치정보 접근 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 런타임 시 백그라운드 위치 정보 액세스 권한 요청 -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- 구글맵 API KEY -->
     <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyDM7Sdg8Od8BHodbZpWTbVcqur0b1kPNI4"/>
+        android:value="AIzaSyDM7Sdg8Od8BHodbZpWTbVcqur0b1kPNI4" />
 
     <application
         android:allowBackup="true"
@@ -28,15 +21,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight"
-        tools:targetApi="31"
-    >
+        tools:targetApi="33">
         <service
             android:name=".GpsService"
-            android:foregroundServiceType="location"
             android:enabled="true"
             android:exported="false"
-            android:process=":gpsService"
-        ></service>
+            android:foregroundServiceType="location"
+            android:process=":gpsService" />
 
         <activity
             android:name=".ui.SignupActivity"
