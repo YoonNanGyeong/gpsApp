@@ -27,8 +27,9 @@ public abstract class AppDatabase extends RoomDatabase {
         if(database == null){
             database = Room.databaseBuilder(context.getApplicationContext(),
                     AppDatabase.class, DATABASE_NAME)
-                    .allowMainThreadQueries()
+                    .allowMainThreadQueries()   // 메인 쓰레드에서 데이터베이스 접근 허용
                     .fallbackToDestructiveMigration()
+                    //마이그레이션을 찾을 수 없는 경우 테이블 삭제. 현재 버전 가져올 시 마이그레이션 집합 없는 경우 데이터베이스 다시 생성
                     .build();
         }
         return database;

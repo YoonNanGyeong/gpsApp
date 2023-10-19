@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity{
         Log.i("MainActivity","onCreate Called");
         setContentView(R.layout.activity_main);
 
+        // 탭 타이틀
         str = new String[] { "아이디 내림차순", "아이디 오름차순"};
 
 
@@ -136,13 +137,14 @@ public class MainActivity extends AppCompatActivity{
         super.onResume();
         Log.i("MainActivity","onResume Called");
 
-        // adapter 준비 및 연결
+        // adapter 준비 및 연결(Viewpager2에 프래그먼트 연결)
         TabPagerAdapter adapter = new TabPagerAdapter(this);
         viewPager.setAdapter(adapter);
 
-        // TabLayout, ViewPager 연결
+        // TabLayout과 ViewPager2 연결
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(str[position])
+                //해당 배열의 값으로 탭구성 값 설정
         ).attach();
 
 

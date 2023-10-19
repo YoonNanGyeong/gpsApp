@@ -19,7 +19,7 @@
         app:tabSelectedTextColor="@color/primary"
         app:tabIndicatorColor="@color/primary"
     />
-
+    <!-- 가로, 세로 스크롤가능 -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"
         android:layout_width="match_parent"

@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +34,7 @@ public class SignupActivity extends AppCompatActivity {
     private AppDatabase db; //데이터베이스
     EditText id, pw, pwChk, email;  //입력필드(아이디, 비밀번호, 비밀번호확인, 이메일)
     AppCompatButton joinBtn, pwChkBtn;  //회원가입버튼, 비밀번호확인버튼
-    ScrollView outSide; // 로그인 전체 레이아웃 뷰
+    LinearLayout outSide; // 로그인 전체 레이아웃 뷰
     String uId, uPw, uEmail, uPwChk;    //입력id, 비밀번호, 이메일, 비밀번호확인
 
     /* 에러확인 메세지(아이디,비밀번호,비밀번호확인,이메일)
@@ -82,7 +83,7 @@ public class SignupActivity extends AppCompatActivity {
         tv_errorMsg_pw2 = findViewById(R.id.errorMsg_signPW2);
         tv_errorMsg_email = findViewById(R.id.errorMsg_signEmail);
          // 필드 외 영역
-        outSide = findViewById(R.id.layout_signUp_outSide);
+        outSide = findViewById(R.id.layout_signup);
 
     }
 
@@ -307,6 +308,18 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     /*
+     * NOT NULL 확인 메소드
+     * */
+    private boolean nullVerify(String... params){
+        for(String param : params){
+            if(param == null || param.isEmpty()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /*
      * appbar에서 뒤로가기 눌렀을 때 로그인 화면으로 이동
      * */
     @Override
@@ -348,17 +361,7 @@ public class SignupActivity extends AppCompatActivity {
         Log.i("SignupActivity","onRestart Called");
     }
 
-    /*
-    * NOT NULL 확인 메소드
-    * */
-    private boolean nullVerify(String... params){
-        for(String param : params){
-            if(param == null || param.isEmpty()){
-                return false;
-            }
-        }
-        return true;
-    }
+
 
 
 

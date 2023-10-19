@@ -88,7 +88,7 @@ public class GpsService extends Service {
             @Override
             public void run() {
                 //위치정보 업데이트
-//                locationMng.requestLocationUpdates(LocationManager.GPS_PROVIDER,gps_seconds,0,gpsLocationListener);
+                // 이동통신 기지국 또는 와이파이 접속 장소 기준으로 위치정보 측정
                 locationMng.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,gps_seconds,0,gpsLocationListener);
             }
         });
@@ -109,6 +109,7 @@ public class GpsService extends Service {
         }
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
+        // notification은 notification 매니저가 다른 프로세스에서 수행하기 때문에 pendingIntent 사용 필수
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("위치정보 저장 알림")
