@@ -4,28 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="android.example.appbar.MainActivity"
 >
-<item
-    android:id="@+id/action_logout"
-    android:title="로그아웃"
-    app:showAsAction="always"
+    <item
+        android:id="@+id/action_logout"
+        android:title="로그아웃"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/action_10seconds"
+        android:orderInCategory="10"
+        android:title="10초"
+        app:showAsAction="never"
     />
-<item
-    android:id="@+id/action_10seconds"
-    android:orderInCategory="10"
-    android:title="10초"
-    app:showAsAction="never"
-/>
-<item
-    android:id="@+id/action_30seconds"
-    android:orderInCategory="20"
-    android:title="30초"
-    app:showAsAction="never"
-/>
-<item
-    android:id="@+id/action_60seconds"
-    android:orderInCategory="30"
-    android:title="60초"
-    app:showAsAction="never"
-/>
-
+    <item
+        android:id="@+id/action_30seconds"
+        android:orderInCategory="20"
+        android:title="30초"
+        app:showAsAction="never"
+    />
+    <item
+        android:id="@+id/action_60seconds"
+        android:orderInCategory="30"
+        android:title="60초"
+        app:showAsAction="never"
+    />
+    <item
+        android:id="@+id/action_googleMap"
+        android:orderInCategory="40"
+        android:title="구글맵"
+        app:showAsAction="never"
+    />
 </menu>
