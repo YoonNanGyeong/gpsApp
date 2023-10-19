@@ -30,7 +30,9 @@ public class MainActivity extends AppCompatActivity{
     String[] str;
 
     Intent gpsInt;
+    Intent mainInt;
     long gps_seconds;    //위치정보 업데이트 시간
+    String loginId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +43,8 @@ public class MainActivity extends AppCompatActivity{
         // 탭 타이틀
         str = new String[] { "아이디 내림차순", "아이디 오름차순"};
 
-        // appbar 타이틀 및 배경색 변경
+        // appbar생성
         getSupportActionBar().show();
-//        getSupportActionBar().setBackgroundDrawable(R.drawable);
 
         // 데이터베이스 인스턴스 생성
         db = AppDatabase.getInstance(this);
@@ -54,8 +55,8 @@ public class MainActivity extends AppCompatActivity{
         viewPager.setNestedScrollingEnabled(true);
 
         gpsInt = new Intent(MainActivity.this, GpsService.class);
-        Intent mainInt = getIntent();   //현재 액티비티 인텐트
-        String loginId = mainInt.getStringExtra("id");  //로그인 아이디
+        mainInt = getIntent();   //현재 액티비티 인텐트
+        loginId = mainInt.getStringExtra("id");  //로그인 아이디
         gpsInt.putExtra("id",loginId);
 //        gpsInt.putExtra("gpsSeconds",gps_seconds); //위치정보 업데이트 시간
 //        startForegroundService(gpsInt); //위치정보 실시간 저장 서비스 시작
