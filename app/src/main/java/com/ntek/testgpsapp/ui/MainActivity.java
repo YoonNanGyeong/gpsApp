@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.ntek.testgpsapp.GpsService;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity{
     Intent mainInt;
     long gps_seconds;    //위치정보 업데이트 시간
     String loginId;
+    FloatingActionButton mapButton; //지도화면 바로가기 버튼
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
