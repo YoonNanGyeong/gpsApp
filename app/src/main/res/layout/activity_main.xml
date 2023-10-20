@@ -30,11 +30,15 @@
         android:id="@+id/map_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
+        android:layout_marginTop="580dp"
+        android:layout_marginRight="30dp"
         android:layout_gravity="bottom|end"
         app:srcCompat="@android:drawable/ic_dialog_map"
-        tools:layout_editor_absoluteX="310dp"
-        tools:layout_editor_absoluteY="600dp" />
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintTop_toTopOf="@+id/pager"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/pager"
+    />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
