@@ -6,13 +6,10 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,7 +19,6 @@ import com.ntek.testgpsapp.GpsService;
 import com.ntek.testgpsapp.R;
 import com.ntek.testgpsapp.persistance.AppDatabase;
 
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity{
     private AppDatabase db;
