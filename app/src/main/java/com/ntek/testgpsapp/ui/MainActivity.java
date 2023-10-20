@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity{
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.pager);
         viewPager.setNestedScrollingEnabled(true);
+        mapButton = findViewById(R.id.map_button);
 
         gpsInt = new Intent(MainActivity.this, GpsService.class);
         mainInt = getIntent();   //현재 액티비티 인텐트
@@ -151,6 +153,11 @@ public class MainActivity extends AppCompatActivity{
                 //해당 배열의 값으로 탭구성 값 설정
         ).attach();
 
+        //지도 버튼 클릭 시 지도화면으로 이동
+        mapButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MapActivity.class);
+            startActivity(intent);
+        });
 
     }
 
