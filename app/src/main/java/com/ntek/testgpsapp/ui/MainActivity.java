@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity{
     //appbar 메뉴 옵션 추가(모양 변경)
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.option_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 

@@ -60,7 +60,7 @@ public class SignupActivity extends AppCompatActivity {
 
         // appbar 설정
         getSupportActionBar().setTitle("회원가입");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //뒤로가기 추가
 
         // 데이터베이스 인스턴스 생성
         db = AppDatabase.getInstance(this);
