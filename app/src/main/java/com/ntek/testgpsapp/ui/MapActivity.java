@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Button;
 
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,6 +24,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private AppDatabase db; //데이터베이스
     List<Gps> savedGpsList; //저장된 위치정보 목록
     double lat, lon;    //위도, 경도
+    Button currentBtn, savedGpsBtn; //현재위치, 저장된위치 버튼
 
 
     @Override
@@ -32,6 +34,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // 데이터베이스 인스턴스 생성
         db = AppDatabase.getInstance(this);
+
+        // xml 객체 뷰 바인딩
+        currentBtn = findViewById(R.id.currentGps_button);
+        savedGpsBtn = findViewById(R.id.savedGps_button);
+
+        // 맵 객체와 뷰 연결
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapActivity.this);
     }
