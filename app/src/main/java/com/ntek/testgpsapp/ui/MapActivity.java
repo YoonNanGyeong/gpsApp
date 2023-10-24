@@ -3,10 +3,8 @@ package com.ntek.testgpsapp.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
+
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,6 +22,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private AppDatabase db; //데이터베이스
     List<Gps> savedGpsList; //저장된 위치정보 목록
+    double lat, lon;    //위도, 경도
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +36,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(MapActivity.this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        savedGpsList = db.gpsDao().listOrderByDesc();
+    }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+
         mMap = googleMap;
 
         LatLng SEOUL = new LatLng(37.556, 126.97);

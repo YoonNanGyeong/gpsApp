@@ -56,6 +56,5 @@ public class GpsDAOTest extends TestCase {
         Gps testGps = new Gps(gpsSeq, "ntek00", 129.2527398, 35.5389653, 76.80000305175781, formatedNow);
         gpsDao.insertAll(testGps);  // gps 저장
 
-
     }
 }
