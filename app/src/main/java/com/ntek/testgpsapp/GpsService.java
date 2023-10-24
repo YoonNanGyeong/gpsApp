@@ -64,8 +64,12 @@ public class GpsService extends Service {
 
         totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
         gpsSeq = totalNum + 1;  //위치정보데이터 순번
-        today = LocalDateTime.now();    //현재 시간
-        formatedNow = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));   //시간 포맷
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            today = LocalDateTime.now();    //현재 시간
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            formatedNow = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));   //시간 포맷
+        }
     }
 
     @Override

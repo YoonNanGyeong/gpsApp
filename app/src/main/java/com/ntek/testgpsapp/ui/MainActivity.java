@@ -6,6 +6,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -51,7 +52,9 @@ public class MainActivity extends AppCompatActivity{
         // xml객체 뷰 바인딩
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.pager);
-        viewPager.setNestedScrollingEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            viewPager.setNestedScrollingEnabled(true);
+        }
         mapButton = findViewById(R.id.map_button);
 
         gpsInt = new Intent(MainActivity.this, GpsService.class);
@@ -82,19 +85,25 @@ public class MainActivity extends AppCompatActivity{
             stopService(gpsInt);
             gps_seconds = 10000;
             gpsInt.putExtra("gps_seconds",gps_seconds);
-            startForegroundService(gpsInt);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(gpsInt);
+            }
             return true;
         }else if(item.getItemId() == R.id.action_30seconds){
             stopService(gpsInt);
             gps_seconds = 30000;
             gpsInt.putExtra("gps_seconds",gps_seconds);
-            startForegroundService(gpsInt);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(gpsInt);
+            }
             return true;
         }else if(item.getItemId() == R.id.action_60seconds){
             stopService(gpsInt);
             gps_seconds = 60000;
             gpsInt.putExtra("gps_seconds",gps_seconds);
-            startForegroundService(gpsInt);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(gpsInt);
+            }
             return true;
         }
         else{

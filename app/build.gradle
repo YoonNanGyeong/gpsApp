@@ -2,6 +2,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.relay' version '0.3.02'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 android {
     namespace 'com.ntek.testgpsapp'
@@ -9,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.ntek.testgpsapp"
-        minSdk 34
+        minSdk 19
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -55,6 +56,9 @@ dependencies {
 
     // 안드로이드 gps api 라이브러리
     implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    // google map
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
 
     // google play service 라이브러리
     implementation('com.google.android.gms:play-services-maps:18.1.0')

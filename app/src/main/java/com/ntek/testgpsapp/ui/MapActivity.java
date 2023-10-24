@@ -12,6 +12,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ntek.testgpsapp.R;
 import com.ntek.testgpsapp.persistance.AppDatabase;
@@ -23,7 +24,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private AppDatabase db; //데이터베이스
     List<Gps> savedGpsList; //저장된 위치정보 목록
-    double lat, lon;    //위도, 경도
+    double lat, lng;    //위도, 경도
     Button currentBtn, savedGpsBtn; //현재위치, 저장된위치 버튼
 
 
@@ -53,18 +54,46 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
+
         mMap = googleMap;
 
-        LatLng SEOUL = new LatLng(37.556, 126.97);
+        // 현재위치버튼 클릭이벤트
+        currentBtn.setOnClickListener(v -> {
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(SEOUL);
-        markerOptions.title("서울");
-        markerOptions.snippet("한국 수도");
+        });
 
-        mMap.addMarker(markerOptions);
+        // 위치정보가져오기버튼 클릭이벤트
+        savedGpsBtn.setOnClickListener(v -> {
+            LatLng savedGps = null;
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 10));
+            for(Gps ele : savedGpsList){
+                savedGps = new LatLng(ele.getLat(),ele.getLon());
+                // 1. 마커 옵션 설정
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions
+                        .position(new LatLng(ele.getLat(),ele.getLon()))
+                        .title(ele.getGps_uid())    // 타이틀
+                        .snippet("순번"+ele.getGps_seq());
+
+                // 2. 마커 생성
+                mMap.addMarker(markerOptions);
+            }
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(savedGps, 10));
+        });
+
+
+
+//        LatLng SEOUL = new LatLng(37.556, 126.97);
+//
+//        MarkerOptions markerOptions = new MarkerOptions();
+//        markerOptions.position(SEOUL);
+//        markerOptions.title("서울");
+//        markerOptions.snippet("한국 수도");
+//
+//        mMap.addMarker(markerOptions);
+//
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 10));
 
     }
 }
