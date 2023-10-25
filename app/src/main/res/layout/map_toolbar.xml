@@ -4,9 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/map_toolbar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#00FFFFFF"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/primary"
+    android:elevation="4dp"
     android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:title="@string/title_activity_map"
+    app:menu="@menu/map_menu"
+    app:itemTextColor="@color/white"
+    app:titleTextColor="@color/white"
 >
 </androidx.appcompat.widget.Toolbar>

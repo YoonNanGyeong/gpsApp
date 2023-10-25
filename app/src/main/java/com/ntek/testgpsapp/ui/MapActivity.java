@@ -1,6 +1,7 @@
 package com.ntek.testgpsapp.ui;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -45,7 +46,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     LatLng defaultLocation; // 기본 좌표값
     private AppDatabase db; //데이터베이스
     List<Gps> savedGpsList; //저장된 위치정보 목록
-    Button savedGpsBtn; //현재위치, 저장된위치 버튼
+    Button savedGpsBtn; //저장된위치
     Location loc_current;   //현재위치를 담을 location 객체
     Intent gpsInt;  //gpsService 인텐트
     MarkerOptions markerOptions;    //지도 마커
@@ -62,9 +63,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
 
         //tool bar
-        Toolbar toolbar = findViewById(R.id.map_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //뒤로가기 추가
+        Toolbar toolbar = (Toolbar)findViewById(R.id.map_toolbar);
+        this.setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 추가
 
         // 데이터베이스 인스턴스 생성
         db = AppDatabase.getInstance(this);
@@ -98,46 +99,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
 
     }
-    //toolbar 메뉴 옵션 추가
+
+    // 뒤로가기 선택 시 이전화면으로 이동
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.map_menu, menu);
-        return true;
-    }
-
-    //toolbar 메뉴 선택 이벤트 처리
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.savedGps_button){   //db에 저장된 회원위치정보 표시
-            LatLng savedGps = null;
-
-            try {
-                for(Gps ele : savedGpsList){    //db에 저장된 회원위치정보 지도에 마커생성
-                    savedGps = new LatLng(ele.getLat(),ele.getLon());
-                    // 1. 마커 옵션 설정
-                    markerOptions
-                            .position(new LatLng(ele.getLat(),ele.getLon()))
-                            .title(ele.getGps_uid())    // 타이틀
-                            .snippet("순번"+ele.getGps_seq());
-
-                    // 2. 마커 생성
-                    mMap.addMarker(markerOptions);
-                }
-                // 마지막 위치정보 위도
-                Log.d("MapActivity","last savedGps lat: " + savedGps.latitude);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(savedGps, 10));
-            } catch (Exception e) {
-                Log.e("Exception: %s", e.getMessage());
-                getDeivceLocation();
-            }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.back_button) {
+            Log.e("MapActivity","뒤로가기 선택됨");
+            Intent mainInt = new Intent(MapActivity.this, MainActivity.class);
+            startActivity(mainInt);
             return true;
-        }else if(item.getItemId() == android.R.id.home){    //뒤로가기 눌렀을 경우
-            Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(mainIntent);
-            return true;
-        }else{
-            return super.onOptionsItemSelected(item);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @SuppressLint("MissingPermission")
@@ -171,30 +143,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         getDeivceLocation();
 
         // 위치정보가져오기버튼 클릭이벤트
-//        savedGpsBtn.setOnClickListener(v -> {
-//            LatLng savedGps = null;
-//
-//            try {
-//                for(Gps ele : savedGpsList){    //db에 저장된 회원위치정보 지도에 마커생성
-//                    savedGps = new LatLng(ele.getLat(),ele.getLon());
-//                    // 1. 마커 옵션 설정
-//                    markerOptions
-//                            .position(new LatLng(ele.getLat(),ele.getLon()))
-//                            .title(ele.getGps_uid())    // 타이틀
-//                            .snippet("순번"+ele.getGps_seq());
-//
-//                    // 2. 마커 생성
-//                    mMap.addMarker(markerOptions);
-//                }
-//                // 마지막 위치정보 위도
-//                Log.d("MapActivity","last savedGps lat: " + savedGps.latitude);
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(savedGps, 10));
-//            } catch (Exception e) {
-//                Log.e("Exception: %s", e.getMessage());
-//                getDeivceLocation();
-//            }
+        savedGpsBtn.setOnClickListener(v -> {
+            LatLng savedGps = null;
 
-//        });
+            try {
+                for(Gps ele : savedGpsList){    //db에 저장된 회원위치정보 지도에 마커생성
+                    savedGps = new LatLng(ele.getLat(),ele.getLon());
+                    // 1. 마커 옵션 설정
+                    markerOptions
+                            .position(new LatLng(ele.getLat(),ele.getLon()))
+                            .title(ele.getGps_uid())    // 타이틀
+                            .snippet("순번"+ele.getGps_seq());
+
+                    // 2. 마커 생성
+                    mMap.addMarker(markerOptions);
+                }
+                // 마지막 위치정보 위도
+                Log.d("MapActivity","last savedGps lat: " + savedGps.latitude);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(savedGps, 10));
+            } catch (Exception e) {
+                Log.e("Exception: %s", e.getMessage());
+                getDeivceLocation();
+            }
+
+        });
 
 
     }
