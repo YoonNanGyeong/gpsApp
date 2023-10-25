@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="10dp"
-        android:backgroundTint="#BAA9C5"
+        android:backgroundTint="@color/primary"
         android:elevation="10dp"
         android:text="전체회원위치정보"
         app:layout_constraintLeft_toLeftOf="@+id/map"
