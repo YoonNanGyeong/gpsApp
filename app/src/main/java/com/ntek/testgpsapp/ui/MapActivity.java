@@ -49,6 +49,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     Location loc_current;   //현재위치를 담을 location 객체
     Intent gpsInt;  //gpsService 인텐트
 
+    int permissionCheck; //위치권한여부 체크
     boolean locationPermissionGranted;  //위치정보권한 허용여부
     private final int MY_PERMISSIONS_REQUEST_FINE_LOCATION=1001;    //권한허용코드
 
@@ -83,6 +84,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // 디폴트 좌표값을 서울로 설정
         defaultLocation = new LatLng(37.556, 126.97);
+
+        // 위치권한여부 체크
+        permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if(permissionCheck == PackageManager.PERMISSION_GRANTED){
+            locationPermissionGranted = true;
+        }else{
+            locationPermissionGranted = false;
+        }
+
     }
 
     @SuppressLint("MissingPermission")
@@ -90,7 +100,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onStart() {
         super.onStart();
         stopService(gpsInt);    // 사용자 위치정보저장 서비스 종료
-
+        Log.d("MapActivity","stop Service Success");
         //현재위치정보
 //        loc_current = locationMng.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
     }
@@ -187,7 +197,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         updateLocationUI();
     }
     
-    //구글맵 ui 업데이트
+    // 위치권한 여부에 따라 지도에 현재위치 관련 ui 업데이트
     private void updateLocationUI() {
         if (mMap == null) {
             return;
@@ -196,17 +206,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             if (locationPermissionGranted) {    //위치권한이 허용인 경우 지도에서 현재위치 ui 활성화
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
-            } else {    //위치권한이 거부인 경우 지도에서 현재위치 ui 비활성화, 권한 동의 요청
+            } else {    //위치권한이 거부인 경우 지도에서 현재위치 ui 비활성화, 권한 요청
                 mMap.setMyLocationEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
                 loc_current = null;
-                accessGps(this);
+                accessGps(this);    // 위치정보권한요청
             }
         } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
         }
     }
 
+    // 현재위치정보 여부에 따라 지도 포지션 설정
     @SuppressLint("MissingPermission")
     private void getDeivceLocation(){
         try {
