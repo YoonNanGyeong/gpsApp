@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -124,6 +125,7 @@ public class SignupActivity extends AppCompatActivity {
          * 회원가입 버튼 클릭
          * */
         joinBtn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("LongLogTag")
             @Override
             public void onClick(View v) {
                 uId = id.getText().toString();
@@ -143,8 +145,14 @@ public class SignupActivity extends AppCompatActivity {
                     pw.requestFocus();
                 }
                 else{
-                    //abstract interface 구현 -> UserDAO를 사용하여 db 저장
-                    db.userDao().insertAll(user);
+
+                    try {
+                        //abstract interface 구현 -> UserDAO를 사용하여 db 저장
+                        db.userDao().insertAll(user);
+                    } catch (SQLiteConstraintException e) {
+                        Log.e("SQLiteConstraintException: %s", e.getMessage());
+                    }
+
                     Toast.makeText(SignupActivity.this, "회원가입 완료!", Toast.LENGTH_SHORT).show();
 
                     //로그인 화면으로 전환
@@ -185,10 +193,18 @@ public class SignupActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
 
+            @SuppressLint("LongLogTag")
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // 아이디중복 확인
-                List<User> findByUserId =  db.userDao().findByUserId(charSequence.toString());
+                List<User> findByUserId = null;
+                try {
+                    // 아이디중복 확인
+                    findByUserId = db.userDao().findByUserId(charSequence.toString());
+                } catch (SQLiteConstraintException e) {
+                    Log.e("SQLiteConstraintException: %s", e.getMessage());
+                }
+
+
                 if(findByUserId.size()>0){
                     tv_errorMsg_id.setText("이미 존재하는 아이디입니다.");    //경고메세지
                     id.setBackgroundResource(R.drawable.error_input);   //테두리 변경
@@ -206,9 +222,17 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
 
+            @SuppressLint("LongLogTag")
             @Override
             public void afterTextChanged(Editable editable) {
-                List<User> findByUserId =  db.userDao().findByUserId(editable.toString());
+                List<User> findByUserId = null;
+                try {
+                    findByUserId = db.userDao().findByUserId(editable.toString());
+                } catch (SQLiteConstraintException e) {
+                    Log.e("SQLiteConstraintException: %s", e.getMessage());
+                }
+
+
                 if(nullVerify(editable.toString())==false){ // 입력값 없을 경우
                     tv_errorMsg_id.setText("아이디는 필수입력입니다.");    //경고메세지
                     id.setBackgroundResource(R.drawable.error_input);   //테두리 변경
@@ -284,9 +308,16 @@ public class SignupActivity extends AppCompatActivity {
 
             }
 
+            @SuppressLint("LongLogTag")
             @Override
             public void afterTextChanged(Editable e) {
-                List<User> findByEmail =  db.userDao().findByEmail(e.toString());
+                List<User> findByEmail = null;
+                try {
+                    findByEmail = db.userDao().findByEmail(e.toString());
+                } catch (SQLiteConstraintException ex) {
+                    Log.e("SQLiteConstraintException: %s", ex.getMessage());
+                }
+
                 if(!Patterns.EMAIL_ADDRESS.matcher(e.toString()).matches()){
                     tv_errorMsg_email.setText("이메일 형식으로 입력해주세요");
                     email.setBackgroundResource(R.drawable.error_input);

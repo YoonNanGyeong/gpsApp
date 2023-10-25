@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -42,7 +43,7 @@ public class GpsService extends Service {
     int totalNum;   //위치정보 데이터개수
     long gps_seconds; //위치정보 업데이트 시간
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint({"MissingPermission", "LongLogTag"})
     @Override
     public void onCreate() {
         super.onCreate();
@@ -62,7 +63,11 @@ public class GpsService extends Service {
         lat = 0.0;
         alt = 0.0;
 
-        totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
+        try {
+            totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
+        } catch (SQLiteConstraintException e) {
+            Log.e("SQLiteConstraintException: %s", e.getMessage());
+        }
         gpsSeq = totalNum + 1;  //위치정보데이터 순번
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -127,6 +132,7 @@ public class GpsService extends Service {
 
     //위치정보 업데이트
     final LocationListener gpsLocationListener = new LocationListener() {
+        @SuppressLint("LongLogTag")
         @Override
         public void onLocationChanged(@NonNull Location location) {
             // 위도, 경도, 고도
@@ -134,15 +140,30 @@ public class GpsService extends Service {
             lat = loc_current.getLatitude();
             alt = loc_current.getAltitude();
 
-            List<Gps> findBySeq = db.gpsDao().findByGpsSeq(gpsSeq); //같은 순번의 데이터가 있는지 확인
+            List<Gps> findBySeq = null; //같은 순번의 데이터가 있는지 확인
+            try {
+                findBySeq = db.gpsDao().findByGpsSeq(gpsSeq);
+            } catch (SQLiteConstraintException e) {
+                Log.e("SQLiteConstraintException: %s", e.getMessage());
+            }
+
             if(findBySeq.size()>0){
-                totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
+                try {
+                    totalNum = db.gpsDao().gpsDataNumber(); //위치정보데이터 개수
+                } catch (SQLiteConstraintException e) {
+                    Log.e("SQLiteConstraintException: %s", e.getMessage());
+                }
                 gpsSeq = totalNum + 1;  //위치정보데이터 순번 업데이트
             }
 
             // 데이터 객체
             Gps gps = new Gps(gpsSeq,uId,lat,lon,alt,formatedNow);
-            db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
+
+            try {
+                db.gpsDao().insertAll(gps); // db에 로그인 유저 아이디, 위치정보 저장
+            } catch (SQLiteConstraintException e) {
+                Log.e("SQLiteConstraintException: %s", e.getMessage());
+            }
 
             Log.d("GpsService","위도: "+lon+" 경도: "+lat+" 고도: "+alt);
         }

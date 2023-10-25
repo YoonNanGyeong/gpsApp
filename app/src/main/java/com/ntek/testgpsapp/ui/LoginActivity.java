@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -107,13 +108,19 @@ public class LoginActivity extends AppCompatActivity {
         // 로그인 버튼 이벤트
         loginBtn.setOnClickListener(new View.OnClickListener() {
 
+            @SuppressLint("LongLogTag")
             @Override
             public void onClick(View v) {
                 // 입력한 아이디, 비밀번호
                 uId = id.getText().toString();
                 uPw = pw.getText().toString();
 
-                List<User> findByUserAssign = db.userDao().findByUserAssign(uId, uPw);  // db에서 해당 계정 찾기
+                List<User> findByUserAssign = null;  // db에서 해당 계정 찾기
+                try {
+                    findByUserAssign = db.userDao().findByUserAssign(uId, uPw);
+                } catch (SQLiteConstraintException e) {
+                    Log.e("SQLiteConstraintException: %s", e.getMessage());
+                }
 
                 if(findByUserAssign.size() > 0){ //계정이 있으면 로그인 성공
                         Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();

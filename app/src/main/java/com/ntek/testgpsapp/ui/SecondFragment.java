@@ -1,5 +1,7 @@
 package com.ntek.testgpsapp.ui;
 
+import android.annotation.SuppressLint;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -51,8 +53,15 @@ public class SecondFragment extends Fragment {
     /*
      * 위치정보데이터 adapter에 추가
      * */
+    @SuppressLint("LongLogTag")
     private void getData(){
-        List<Gps> totalList = db.gpsDao().listOrderByAsc();
+        List<Gps> totalList = null;
+
+        try {
+            totalList = db.gpsDao().listOrderByAsc();
+        } catch (SQLiteConstraintException e) {
+            Log.e("SQLiteConstraintException: %s", e.getMessage());
+        }
 
         for(int i=0; i < totalList.size(); i++){
             Gps resultGps = totalList.get(i);
