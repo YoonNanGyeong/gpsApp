@@ -40,7 +40,9 @@ import java.util.List;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback{
     private GoogleMap mMap;
-    private FusedLocationProviderClient mFusedLocationClient;   //google play 서비스 클라이언트(기기 위치정보 가져오는 메서드 제공)
+
+    //google play 서비스 클라이언트(기기 위치정보 가져오는 메서드 제공)
+    private FusedLocationProviderClient mFusedLocationClient;
     LatLng defaultLocation; // 기본 좌표값
     private AppDatabase db; //데이터베이스
     List<Gps> savedGpsList; //저장된 위치정보 목록
