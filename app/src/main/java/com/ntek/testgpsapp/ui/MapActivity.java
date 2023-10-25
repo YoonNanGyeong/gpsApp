@@ -8,16 +8,16 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteConstraintException;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -27,7 +27,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -62,6 +61,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+        //tool bar
+        Toolbar toolbar = findViewById(R.id.map_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //뒤로가기 추가
+
         // 데이터베이스 인스턴스 생성
         db = AppDatabase.getInstance(this);
 
@@ -93,6 +97,47 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             locationPermissionGranted = false;
         }
 
+    }
+    //toolbar 메뉴 옵션 추가
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.map_menu, menu);
+        return true;
+    }
+
+    //toolbar 메뉴 선택 이벤트 처리
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.savedGps_button){   //db에 저장된 회원위치정보 표시
+            LatLng savedGps = null;
+
+            try {
+                for(Gps ele : savedGpsList){    //db에 저장된 회원위치정보 지도에 마커생성
+                    savedGps = new LatLng(ele.getLat(),ele.getLon());
+                    // 1. 마커 옵션 설정
+                    markerOptions
+                            .position(new LatLng(ele.getLat(),ele.getLon()))
+                            .title(ele.getGps_uid())    // 타이틀
+                            .snippet("순번"+ele.getGps_seq());
+
+                    // 2. 마커 생성
+                    mMap.addMarker(markerOptions);
+                }
+                // 마지막 위치정보 위도
+                Log.d("MapActivity","last savedGps lat: " + savedGps.latitude);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(savedGps, 10));
+            } catch (Exception e) {
+                Log.e("Exception: %s", e.getMessage());
+                getDeivceLocation();
+            }
+            return true;
+        }else if(item.getItemId() == android.R.id.home){    //뒤로가기 눌렀을 경우
+            Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(mainIntent);
+            return true;
+        }else{
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -126,30 +171,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         getDeivceLocation();
 
         // 위치정보가져오기버튼 클릭이벤트
-        savedGpsBtn.setOnClickListener(v -> {
-            LatLng savedGps = null;
+//        savedGpsBtn.setOnClickListener(v -> {
+//            LatLng savedGps = null;
+//
+//            try {
+//                for(Gps ele : savedGpsList){    //db에 저장된 회원위치정보 지도에 마커생성
+//                    savedGps = new LatLng(ele.getLat(),ele.getLon());
+//                    // 1. 마커 옵션 설정
+//                    markerOptions
+//                            .position(new LatLng(ele.getLat(),ele.getLon()))
+//                            .title(ele.getGps_uid())    // 타이틀
+//                            .snippet("순번"+ele.getGps_seq());
+//
+//                    // 2. 마커 생성
+//                    mMap.addMarker(markerOptions);
+//                }
+//                // 마지막 위치정보 위도
+//                Log.d("MapActivity","last savedGps lat: " + savedGps.latitude);
+//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(savedGps, 10));
+//            } catch (Exception e) {
+//                Log.e("Exception: %s", e.getMessage());
+//                getDeivceLocation();
+//            }
 
-            try {
-                for(Gps ele : savedGpsList){    //db에 저장된 회원위치정보 지도에 마커생성
-                    savedGps = new LatLng(ele.getLat(),ele.getLon());
-                    // 1. 마커 옵션 설정
-                    markerOptions
-                            .position(new LatLng(ele.getLat(),ele.getLon()))
-                            .title(ele.getGps_uid())    // 타이틀
-                            .snippet("순번"+ele.getGps_seq());
-
-                    // 2. 마커 생성
-                    mMap.addMarker(markerOptions);
-                }
-                // 마지막 위치정보 위도
-                Log.d("MapActivity","last savedGps lat: " + savedGps.latitude);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(savedGps, 10));
-            } catch (Exception e) {
-                Log.e("Exception: %s", e.getMessage());
-                getDeivceLocation();
-            }
-
-        });
+//        });
 
 
     }

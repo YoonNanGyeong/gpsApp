@@ -33,7 +33,9 @@
 
         <activity
             android:name=".ui.MapActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/title_activity_map"
+        />
 
         <service
             android:name=".GpsService"
