@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
     String uId, uPw;    //아이디, 비밀번호 입력값
 
-
+    // 권한 허용 코드
     private final int MY_PERMISSIONS_REQUEST_FINE_LOCATION=1001;
     private final int MY_PERMISSIONS_REQUEST_POST_NOTIFICATIONS=1002;
 

@@ -33,8 +33,8 @@ public class GpsService extends Service {
     private AppDatabase db; //데이터베이스
     String uId;    //로그인 아이디
 
-    LocationManager locationMng;
-    Location loc_current;
+    LocationManager locationMng; //위치정보매니저
+    Location loc_current; //현재위치를 담을 location 객체
     double lon, lat, alt; //위도, 경도, 고도
     LocalDateTime today;    //현재 연월일시
     String formatedNow; //현재 연월일시 포맷팅
