@@ -142,7 +142,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // 기기 위치정보 가져오고 지도 포지션 설정
         getDeivceLocation();
 
-        // 위치정보가져오기버튼 클릭이벤트
+        // 회원전체위치정보 클릭이벤트
         savedGpsBtn.setOnClickListener(v -> {
             LatLng savedGps = null;
 
@@ -160,7 +160,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
                 // 마지막 위치정보 위도
                 Log.d("MapActivity","last savedGps lat: " + savedGps.latitude);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(savedGps, 10));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(savedGps, 15));
             } catch (Exception e) {
                 Log.e("Exception: %s", e.getMessage());
                 getDeivceLocation();
@@ -227,7 +227,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     // 현재위치정보 여부에 따라 지도 포지션 설정
     @SuppressLint("MissingPermission")
-    private void getDeivceLocation(){
+    private void   getDeivceLocation(){
         try {
             if(locationPermissionGranted){
                 //가장 최근 위치 정보를 가져옴
@@ -274,8 +274,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                             // 2. 마커 생성
                             mMap.addMarker(markerOptions);
-                            // 기본 위치로 포커스
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 10));
                             // 기본 위치로 포커스
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 10));
                         }

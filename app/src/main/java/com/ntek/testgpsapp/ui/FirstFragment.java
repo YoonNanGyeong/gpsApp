@@ -24,8 +24,8 @@ import java.util.List;
 
 public class FirstFragment extends Fragment {
     private AppDatabase db;
-    public RecyclerView firstRecycler;  //리사이클러 뷰 생성
-    public AppDBAdapter firstAdapter;   //db어댑터 생성
+    public RecyclerView firstRecycler;  //리사이클러 뷰
+    public AppDBAdapter firstAdapter;   //db어댑터
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class FirstFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_first, container, false);
         firstRecycler = (RecyclerView)view.findViewById(R.id.firstRecycler);
-        firstRecycler.setHasFixedSize(true);
+        firstRecycler.setHasFixedSize(true);    //목록을 구성하는 아이템의 크기 변동 없음
 
 
         return view;

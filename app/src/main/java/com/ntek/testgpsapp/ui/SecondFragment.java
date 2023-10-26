@@ -24,8 +24,8 @@ import java.util.List;
 
 public class SecondFragment extends Fragment {
     private AppDatabase db;
-    public RecyclerView secondRecycler;  //리사이클러 뷰 생성
-    public AppDBAdapter secondAdapter;   //db어댑터 생성
+    public RecyclerView secondRecycler;  //리사이클러 뷰
+    public AppDBAdapter secondAdapter;   //db어댑터
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +37,7 @@ public class SecondFragment extends Fragment {
         Log.i("SecondFragment","onCreateView Called");
         View view = inflater.inflate(R.layout.fragment_second, container, false);
         secondRecycler = (RecyclerView) view.findViewById(R.id.secondRecycler);
-        secondRecycler.setHasFixedSize(false);
+        secondRecycler.setHasFixedSize(true); //목록을 구성하는 아이템의 크기 변동 없음
 
         return view;
     }
